@@ -1,6 +1,4 @@
-﻿using SharpGL.SceneGraph.Quadrics;
-
-namespace Kinteraction.Shapes
+﻿namespace Kinteraction.Shapes
 {
     public class ShapeFactory
     {
@@ -12,6 +10,10 @@ namespace Kinteraction.Shapes
                 case Type.Cube:
                     return new Cube();
                 case Type.Sphere:
+                    return new Sphere();
+                case Type.Pyramid:
+                    return new Pyramid();
+                case Type.Hand:
                     return new Sphere();
                 default:
                     return null;

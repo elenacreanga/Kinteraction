@@ -8,7 +8,7 @@ namespace Kinteraction.Shapes
     {
         public Cube()
         {
-            Origin = new double[3] { 0, 0, 10 };
+            Origin = new double[3] { 10, 0, 0};
             Color = Colors.BurlyWood;
             R = 1;
         }

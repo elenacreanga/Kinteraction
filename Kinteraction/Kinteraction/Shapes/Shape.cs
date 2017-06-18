@@ -27,7 +27,7 @@ namespace Kinteraction.Shapes
     {
         Cube,
         Sphere,
-        //Pyramid,
-        //Hand
+        Pyramid,
+        Hand
     }
 }

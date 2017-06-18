@@ -7,7 +7,7 @@ namespace Kinteraction.Shapes
     {
         public Sphere()
         {
-            Origin = new double[3] { 0, 0, 0 };
+            Origin = new double[3] { 0, -5, 0 };
             Color = Colors.DarkCyan;
             R = 2;
         }

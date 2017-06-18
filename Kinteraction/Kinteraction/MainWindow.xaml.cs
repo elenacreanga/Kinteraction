@@ -65,7 +65,8 @@ namespace Kinteraction
             _shapes = new List<Shape>
             {
                 _shapeFactory.GetShape(Type.Cube),
-                _shapeFactory.GetShape(Type.Sphere)
+                _shapeFactory.GetShape(Type.Sphere),
+                _shapeFactory.GetShape(Type.Pyramid)
             };
             InitializeComponent();
         }

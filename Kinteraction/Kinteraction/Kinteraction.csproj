@@ -69,6 +69,7 @@
     </ApplicationDefinition>
     <Compile Include="Constants.cs" />
     <Compile Include="Shapes\Cube.cs" />
+    <Compile Include="Shapes\Pyramid.cs" />
     <Compile Include="Shapes\Shape.cs" />
     <Compile Include="Shapes\ShapeFactory.cs" />
     <Compile Include="Shapes\Sphere.cs" />
