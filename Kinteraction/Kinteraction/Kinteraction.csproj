@@ -67,12 +67,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BaseFacade.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Hands.cs" />
+    <Compile Include="Helpers\Conversions.cs" />
+    <Compile Include="Shapes\Axis.cs" />
     <Compile Include="Shapes\Cube.cs" />
     <Compile Include="Shapes\Pyramid.cs" />
     <Compile Include="Shapes\Shape.cs" />
     <Compile Include="Shapes\ShapeFactory.cs" />
     <Compile Include="Shapes\Sphere.cs" />
+    <Compile Include="Shapes\Tracker.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

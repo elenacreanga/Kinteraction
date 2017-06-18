@@ -15,6 +15,10 @@
                     return new Pyramid();
                 case Type.Hand:
                     return new Sphere();
+                case Type.Tracker:
+                    return new Tracker();
+                case Type.Axis:
+                    return new Axis();
                 default:
                     return null;
             }

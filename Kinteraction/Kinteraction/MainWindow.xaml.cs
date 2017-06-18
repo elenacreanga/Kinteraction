@@ -19,30 +19,25 @@ namespace Kinteraction
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private const float InferredZPositionClamp = 0.1f;
+
+        private const float Multipier = 10;
         private readonly BodyFrameReader _bodyFrameReader;
         private readonly WriteableBitmap _colorBitmap;
         private readonly ColorFrameReader _colorFrameReader;
         private readonly CoordinateMapper _coordinateMapper;
-        private readonly KinectSensor _kinectSensor;
-        private readonly ShapeFactory _shapeFactory;
-        private readonly IList<Shape> _shapes;
 
-        private readonly float multipier = 10;
+        private readonly Hands _hands;
+        private readonly KinectSensor _kinectSensor;
+        internal readonly ShapeFactory _shapeFactory;
+        private readonly IList<Shape> _shapes;
         private double[] _angle;
         private Body[] _bodies;
         private string _detectedText = Constants.NotDetected;
         private float _dist;
         private string _handText = Constants.HandPosition;
 
-        private bool _lopen = true;
         private Mod _mod = Mod.FREE;
         private string _modText = Constants.HandStatus;
-        private Point3D _rightHand;
-        private bool _ropen = true;
-        private Point3D LeftHand;
-
-        private float[] transL = new float[3];
-        private float[] transR = new float[3];
 
         public MainWindow()
         {
@@ -69,6 +64,7 @@ namespace Kinteraction
                 _shapeFactory.GetShape(Type.Pyramid)
             };
             InitializeComponent();
+            _hands = new Hands(_shapeFactory);
         }
 
         public ImageSource ImageSource => _colorBitmap;
@@ -144,17 +140,20 @@ namespace Kinteraction
                             CRPos.Z = InferredZPositionClamp;
                         var DLPos = _coordinateMapper.MapCameraPointToDepthSpace(CLPos);
                         var DRPos = _coordinateMapper.MapCameraPointToDepthSpace(CRPos);
-                        LeftHand = new Point3D(DLPos.X, DLPos.Y, CLPos.Z);
-                        _rightHand = new Point3D(DRPos.X, DRPos.Y, CRPos.Z);
+                        _hands._leftHand = new Point3D(DLPos.X, DLPos.Y, CLPos.Z);
+                        _hands._rightHand = new Point3D(DRPos.X, DRPos.Y, CRPos.Z);
 
                         if (body.HandLeftState == HandState.Open || body.HandLeftState == HandState.Closed)
-                            _lopen = body.HandLeftState == HandState.Open ? true : false;
+                            _hands._isLeftHandOpen = body.HandLeftState == HandState.Open ? true : false;
                         if (body.HandRightState == HandState.Open || body.HandRightState == HandState.Closed)
-                            _ropen = body.HandRightState == HandState.Open ? true : false;
+                            _hands._isRightHandOpen = body.HandRightState == HandState.Open ? true : false;
 
                         DetectedText = body.IsTracked ? Constants.Detected : Constants.NotDetected;
-                        HandText = "(" + (int)LeftHand.X + "," + (int)LeftHand.Y + "," + (int)LeftHand.Z + ")\t(" +
-                                   (int)_rightHand.X + "," + (int)_rightHand.Y + "," + (int)_rightHand.Z + ")";
+                        HandText = "(" + (int) _hands._leftHand.X + "," + (int) _hands._leftHand.Y + "," +
+                                   (int) _hands._leftHand.Z +
+                                   ")\t(" +
+                                   (int) _hands._rightHand.X + "," + (int) _hands._rightHand.Y + "," +
+                                   (int) _hands._rightHand.Z + ")";
                     }
         }
 
@@ -177,7 +176,7 @@ namespace Kinteraction
                         {
                             colorFrame.CopyConvertedFrameDataToIntPtr(
                                 _colorBitmap.BackBuffer,
-                                (uint)(colorFrameDescription.Width * colorFrameDescription.Height * 4),
+                                (uint) (colorFrameDescription.Width * colorFrameDescription.Height * 4),
                                 ColorImageFormat.Bgra);
 
                             _colorBitmap.AddDirtyRect(
@@ -194,9 +193,9 @@ namespace Kinteraction
         {
             var gl = args.OpenGL;
             initGL(gl);
-
-            DrawHand(gl);
             DrawAxis(gl);
+
+            _hands.Draw(gl);
             DrawShapes(gl);
             gl.Flush();
         }
@@ -224,25 +223,26 @@ namespace Kinteraction
         {
             gl.PushMatrix();
             gl.Translate(s.Origin[0], s.Origin[1], s.Origin[2]);
-            gl.Rotate((s.Ro[1] + s.Rop[1]) * multipier, 1, 0, 0);
-            gl.Rotate((s.Ro[2] + s.Rop[2]) * multipier, 0, 1, 0);
-            gl.Rotate((s.Ro[0] + s.Rop[0]) * multipier, 0, 0, 1);
+            gl.Rotate((s.Ro[1] + s.Rop[1]) * Multipier, 1, 0, 0);
+            gl.Rotate((s.Ro[2] + s.Rop[2]) * Multipier, 0, 1, 0);
+            gl.Rotate((s.Ro[0] + s.Rop[0]) * Multipier, 0, 0, 1);
             IsGrabbed(s);
             ModText = Enum.GetName(typeof(Mod), _mod);
             Console.WriteLine(_mod);
             if (_mod == Mod.GRAB || _mod == Mod.ZOOM)
                 if (s.Grabbed)
                 {
-                    for (var k = 0; k < 3; k++) s.Origin[k] = transR[k];
+                    for (var k = 0; k < 3; k++) s.Origin[k] = _hands.transR[k];
                     IsZoom(s);
                     if (_mod == Mod.ZOOM)
                     {
-                        Console.WriteLine(s.R + " " + _dist + " " + Euclid(transL, transR));
-                        s.Rp = (Euclid(transL, transR) - _dist) * 0.3;
+                        Console.WriteLine(s.R + " " + _dist + " " + Euclid(_hands.transL, _hands.transR));
+                        s.Rp = (Euclid(_hands.transL, _hands.transR) - _dist) * 0.3;
                         s.Rop = new double[3]
                         {
-                            transL[0] - transR[0] - _angle[0], transL[1] - transR[1] - _angle[1],
-                            transL[2] - transR[2] - _angle[2]
+                            _hands.transL[0] - _hands.transR[0] - _angle[0],
+                            _hands.transL[1] - _hands.transR[1] - _angle[1],
+                            _hands.transL[2] - _hands.transR[2] - _angle[2]
                         };
                     }
                 }
@@ -250,111 +250,21 @@ namespace Kinteraction
             gl.PopMatrix();
         }
 
-        private void DrawHand(OpenGL gl)
+        private void DrawAxis(OpenGL gl)
         {
-            transL = new float[3]
-                {(float) LeftHand.X / 10 - 30, -(float) LeftHand.Y / 10 + 20, (float) LeftHand.Z * 30 - 25};
-            transR = new float[3]
-                {(float) _rightHand.X / 10 - 30, -(float) _rightHand.Y / 10 + 20, (float) _rightHand.Z * 30 - 25};
-            transL = HandLimit(transL);
-            transR = HandLimit(transR);
-
-            //Left Hand
-            Color lc;
-            if (_lopen)
-                lc = Colors.Aqua;
-            else
-                lc = Colors.Red;
-            var leftHand = _shapeFactory.GetShape(Type.Sphere);
-            leftHand.Origin = new[] { transL[0], transL[1], (double)transL[2] };
-            leftHand.Color = lc;
-            leftHand.R = 0.5;
-            leftHand.Draw(gl);
-            Tracker(gl, transL, new[] { 0, 1, 1, 0.1f });
-
-            //Right Hand
-            Color rc;
-            if (_ropen)
-                rc = Colors.DarkGreen;
-            else
-                rc = Colors.Red;
-            var rightHand = _shapeFactory.GetShape(Type.Sphere);
-            rightHand.Origin = new[] { transR[0], transR[1], (double)transR[2] };
-            rightHand.Color = rc;
-            rightHand.R = 0.5;
-            rightHand.Draw(gl);
-            Tracker(gl, transR, new[] { 1, 1, 0, 0.1f });
-        }
-
-        private static float[] HandLimit(float[] hand)
-        {
-            var Xmax = 10.0f;
-            var Xmin = -16.0f;
-            var Ymax = 13.0f;
-            var Ymin = 0.0f;
-            var Zmax = 20.0f;
-            var Zmin = 0.0f;
-            if (hand[0] > Xmax) hand[0] = Xmax;
-            if (hand[0] < Xmin) hand[0] = Xmin;
-            if (hand[1] > Ymax) hand[1] = Ymax;
-            if (hand[1] < Ymin) hand[1] = Ymin;
-            if (hand[2] > Zmax) hand[2] = Zmax;
-            if (hand[2] < Zmin) hand[2] = Zmin;
-            return hand;
-        }
-
-        private static void Tracker(OpenGL gl, float[] core, float[] color)
-        {
-            gl.Begin(OpenGL.GL_LINES);
-
-            gl.LineWidth(2);
-            gl.Color(color[0], color[1], color[2], color[3]);
-
-            gl.Vertex(0, 0, core[2]);
-            gl.Vertex(0, core[1], core[2]);
-            gl.Vertex(0, core[1], core[2]);
-            gl.Vertex(core[0], core[1], core[2]);
-            gl.Vertex(core[0], core[1], core[2]);
-            gl.Vertex(core[0], 0, core[2]);
-            gl.Vertex(core[0], 0, core[2]);
-            gl.Vertex(0, 0, core[2]);
-
-            gl.Vertex(core[0], core[1], core[2]);
-            gl.Vertex(core[0], core[1], 0);
-            gl.Vertex(core[0], core[1], 0);
-            gl.Vertex(0, core[1], 0);
-            gl.Vertex(0, core[1], 0);
-            gl.Vertex(0, core[1], core[2]);
-
-            gl.Vertex(core[0], core[1], 0);
-            gl.Vertex(core[0], 0, 0);
-            gl.Vertex(core[0], 0, 0);
-            gl.Vertex(core[0], 0, core[2]);
-            gl.End();
-        }
-
-        private static void DrawAxis(OpenGL gl)
-        {
-            gl.Begin(OpenGL.GL_LINES);
-            gl.Color(1.0f, 1.0f, 1.0f);
-            gl.Vertex(-100.0f, 0.0f, 0.0f);
-            gl.Vertex(100.0f, 0.0f, 0.0f);
-            gl.Vertex(0.0f, -100.0f, 0.0f);
-            gl.Vertex(0.0f, 100.0f, 0.0f);
-            gl.Vertex(0.0f, 0.0f, -100.0f);
-            gl.Vertex(0.0f, 0.0f, 100.0f);
-            gl.End();
+            var axis = _shapeFactory.GetShape(Type.Axis);
+            axis.Draw(gl);
         }
 
         private void IsGrabbed(Shape s)
         {
             if (_mod == Mod.FREE)
             {
-                if (!_ropen)
+                if (!_hands._isRightHandOpen)
                     if (!s.Grabbed)
-                        if (s.Origin[0] - s.R < transR[0] && s.Origin[0] + s.R > transR[0] &&
-                            s.Origin[1] - s.R < transR[1] && s.Origin[1] + s.R > transR[1] &&
-                            s.Origin[2] - s.R < transR[2] && s.Origin[2] + s.R > transR[2])
+                        if (s.Origin[0] - s.R < _hands.transR[0] && s.Origin[0] + s.R > _hands.transR[0] &&
+                            s.Origin[1] - s.R < _hands.transR[1] && s.Origin[1] + s.R > _hands.transR[1] &&
+                            s.Origin[2] - s.R < _hands.transR[2] && s.Origin[2] + s.R > _hands.transR[2])
                         {
                             s.Grabbed = true;
                             _mod = Mod.GRAB;
@@ -362,7 +272,7 @@ namespace Kinteraction
             }
             else
             {
-                if (_ropen)
+                if (_hands._isRightHandOpen)
                     if (s.Grabbed)
                     {
                         s.Grabbed = false;
@@ -375,16 +285,20 @@ namespace Kinteraction
         {
             if (_mod == Mod.GRAB)
             {
-                if (!_lopen)
+                if (!_hands._isLeftHandOpen)
                 {
                     _mod = Mod.ZOOM;
-                    _dist = Euclid(transL, transR);
-                    _angle = new double[3] { transL[0] - transR[0], transL[1] - transR[1], transL[2] - transR[2] };
+                    _dist = Euclid(_hands.transL, _hands.transR);
+                    _angle = new double[3]
+                    {
+                        _hands.transL[0] - _hands.transR[0], _hands.transL[1] - _hands.transR[1],
+                        _hands.transL[2] - _hands.transR[2]
+                    };
                 }
             }
             else
             {
-                if (_lopen)
+                if (_hands._isLeftHandOpen)
                 {
                     _mod = Mod.GRAB;
                     s.R += s.Rp;
@@ -401,8 +315,8 @@ namespace Kinteraction
 
         private static float Euclid(float[] a, float[] b)
         {
-            return (float)Math.Sqrt((a[0] - b[0]) * (a[0] - b[0]) + (a[1] - b[1]) * (a[1] - b[1]) +
-                                    (a[2] - b[2]) * (a[2] - b[2]));
+            return (float) Math.Sqrt((a[0] - b[0]) * (a[0] - b[0]) + (a[1] - b[1]) * (a[1] - b[1]) +
+                                     (a[2] - b[2]) * (a[2] - b[2]));
         }
 
         private void OpenGLControl_Loaded(object sender, RoutedEventArgs e)
