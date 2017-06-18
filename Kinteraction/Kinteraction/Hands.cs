@@ -65,18 +65,18 @@ namespace Kinteraction
 
         private static float[] HandLimit(float[] hand)
         {
-            var Xmax = 10.0f;
-            var Xmin = -16.0f;
-            var Ymax = 13.0f;
-            var Ymin = 0.0f;
-            var Zmax = 20.0f;
-            var Zmin = 0.0f;
-            if (hand[0] > Xmax) hand[0] = Xmax;
-            if (hand[0] < Xmin) hand[0] = Xmin;
-            if (hand[1] > Ymax) hand[1] = Ymax;
-            if (hand[1] < Ymin) hand[1] = Ymin;
-            if (hand[2] > Zmax) hand[2] = Zmax;
-            if (hand[2] < Zmin) hand[2] = Zmin;
+            const float xMax = 10.0f;
+            const float xMin = -16.0f;
+            const float yMax = 13.0f;
+            const float yMin = 0.0f;
+            const float zMax = 20.0f;
+            const float zMin = 0.0f;
+            if (hand[0] > xMax) hand[0] = xMax;
+            if (hand[0] < xMin) hand[0] = xMin;
+            if (hand[1] > yMax) hand[1] = yMax;
+            if (hand[1] < yMin) hand[1] = yMin;
+            if (hand[2] > zMax) hand[2] = zMax;
+            if (hand[2] < zMin) hand[2] = zMin;
             return hand;
         }
 
