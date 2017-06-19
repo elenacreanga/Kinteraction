@@ -80,6 +80,7 @@
     <Compile Include="Gestures\ISegment.cs" />
     <Compile Include="Shapes\Axis.cs" />
     <Compile Include="Shapes\Cube.cs" />
+    <Compile Include="Hand.cs" />
     <Compile Include="Shapes\Pyramid.cs" />
     <Compile Include="Shapes\Shape.cs" />
     <Compile Include="Shapes\ShapeFactory.cs" />
@@ -129,8 +130,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="NewFolder1\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

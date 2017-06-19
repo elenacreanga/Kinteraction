@@ -9,55 +9,51 @@ namespace Kinteraction
     public class Hands
     {
         private readonly ShapeFactory _shapeFactory;
-        internal bool IsLeftHandOpen = true;
-        internal bool IsRightHandOpen = true;
+        public Hand Left;
+        public Hand Right;
 
         internal Point3D LeftHand;
         internal Point3D RightHand;
 
-        internal float[] TransL = new float[3];
-        internal float[] TransR = new float[3];
 
 
         public Hands(ShapeFactory shapeFactory)
         {
             _shapeFactory = shapeFactory;
+            Left = new Hand();
+            Right = new Hand();
         }
 
         public void Draw(OpenGL gl)
         {
-            TransL = new float[3]
-                {(float) LeftHand.X / 10 - 30, -(float) LeftHand.Y / 10 + 20, (float) LeftHand.Z * 30 - 25};
-            TransR = new float[3]
-                {(float) RightHand.X / 10 - 30, -(float) RightHand.Y / 10 + 20, (float) RightHand.Z * 30 - 25};
-            TransL = HandLimit(TransL);
-            TransR = HandLimit(TransR);
+            AdjustOrigins();
 
             //Left Hand
-            Color lc;
-            if (IsLeftHandOpen)
-                lc = Colors.Aqua;
-            else
-                lc = Colors.Red;
-            var leftHand = _shapeFactory.GetShape(Type.Sphere);
-            leftHand.Origin = new[] {TransL[0], TransL[1], (double) TransL[2]};
-            leftHand.Color = lc;
-            leftHand.R = 0.5;
-            leftHand.Draw(gl);
-            DrawTracker(gl, TransL.ToDoubles(), Colors.Aqua);
+            DrawHand(gl, Colors.Aqua, Left);
 
             //Right Hand
-            Color rc;
-            if (IsRightHandOpen)
-                rc = Colors.Orchid;
-            else
-                rc = Colors.Red;
-            var rightHand = _shapeFactory.GetShape(Type.Sphere);
-            rightHand.Origin = new[] {TransR[0], TransR[1], (double) TransR[2]};
-            rightHand.Color = rc;
-            rightHand.R = 0.5;
-            rightHand.Draw(gl);
-            DrawTracker(gl, TransR.ToDoubles(), Colors.Orchid);
+            DrawHand(gl, Colors.Orchid, Right);
+        }
+
+        private void AdjustOrigins()
+        {
+            Left.Origin = new float[3]
+                {(float) LeftHand.X / 10 - 30, -(float) LeftHand.Y / 10 + 20, (float) LeftHand.Z * 30 - 25};
+            Right.Origin = new float[3]
+                {(float) RightHand.X / 10 - 30, -(float) RightHand.Y / 10 + 20, (float) RightHand.Z * 30 - 25};
+            Left.Origin = HandLimit(Left.Origin);
+            Right.Origin = HandLimit(Right.Origin);
+        }
+
+        private void DrawHand(OpenGL gl, Color handColor, Hand hand)
+        {
+            var currentColor = hand.IsOpen ? handColor : Colors.Red;
+            var shape = _shapeFactory.GetShape(Type.Sphere);
+            shape.Origin = hand.Origin.ToDoubles();
+            shape.Color = currentColor;
+            shape.R = 0.5;
+            shape.Draw(gl);
+            DrawTracker(gl, hand.Origin.ToDoubles(), handColor);
         }
 
         private static float[] HandLimit(float[] hand)

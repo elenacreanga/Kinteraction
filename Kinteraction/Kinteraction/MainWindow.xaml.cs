@@ -174,9 +174,9 @@ namespace Kinteraction
                         _hands.RightHand = new Point3D(depthRightHandPosition.X, depthRightHandPosition.Y, rightHandPosition.Z);
 
                         if (body.HandLeftState == HandState.Open || body.HandLeftState == HandState.Closed)
-                            _hands.IsLeftHandOpen = body.HandLeftState == HandState.Open ? true : false;
+                            _hands.Left.IsOpen = body.HandLeftState == HandState.Open ? true : false;
                         if (body.HandRightState == HandState.Open || body.HandRightState == HandState.Closed)
-                            _hands.IsRightHandOpen = body.HandRightState == HandState.Open ? true : false;
+                            _hands.Right.IsOpen = body.HandRightState == HandState.Open ? true : false;
 
                         DetectedText = body.IsTracked ? Constants.Detected : Constants.NotDetected;
                         HandText = "(" + (int) _hands.LeftHand.X + "," + (int) _hands.LeftHand.Y + "," +
@@ -236,17 +236,17 @@ namespace Kinteraction
             if (_mod == Mod.GRAB || _mod == Mod.ZOOM)
                 if (s.IsGrabbed)
                 {
-                    for (var k = 0; k < 3; k++) s.Origin[k] = _hands.TransR[k];
+                    for (var k = 0; k < 3; k++) s.Origin[k] = _hands.Right.Origin[k];
                     IsZoom(s);
                     if (_mod == Mod.ZOOM)
                     {
-                        Console.WriteLine(s.R + " " + _dist + " " + Euclid(_hands.TransL, _hands.TransR));
-                        s.Rp = (Euclid(_hands.TransL, _hands.TransR) - _dist) * 0.3;
+                        Console.WriteLine(s.R + " " + _dist + " " + Euclid(_hands.Left.Origin, _hands.Right.Origin));
+                        s.Rp = (Euclid(_hands.Left.Origin, _hands.Right.Origin) - _dist) * 0.3;
                         s.Rop = new double[3]
                         {
-                            _hands.TransL[0] - _hands.TransR[0] - _angle[0],
-                            _hands.TransL[1] - _hands.TransR[1] - _angle[1],
-                            _hands.TransL[2] - _hands.TransR[2] - _angle[2]
+                            _hands.Left.Origin[0] - _hands.Right.Origin[0] - _angle[0],
+                            _hands.Left.Origin[1] - _hands.Right.Origin[1] - _angle[1],
+                            _hands.Left.Origin[2] - _hands.Right.Origin[2] - _angle[2]
                         };
                     }
                 }
@@ -264,11 +264,11 @@ namespace Kinteraction
         {
             if (_mod == Mod.FREE)
             {
-                if (!_hands.IsRightHandOpen)
+                if (!_hands.Right.IsOpen)
                     if (!s.IsGrabbed)
-                        if (s.Origin[0] - s.R < _hands.TransR[0] && s.Origin[0] + s.R > _hands.TransR[0] &&
-                            s.Origin[1] - s.R < _hands.TransR[1] && s.Origin[1] + s.R > _hands.TransR[1] &&
-                            s.Origin[2] - s.R < _hands.TransR[2] && s.Origin[2] + s.R > _hands.TransR[2])
+                        if (s.Origin[0] - s.R < _hands.Right.Origin[0] && s.Origin[0] + s.R > _hands.Right.Origin[0] &&
+                            s.Origin[1] - s.R < _hands.Right.Origin[1] && s.Origin[1] + s.R > _hands.Right.Origin[1] &&
+                            s.Origin[2] - s.R < _hands.Right.Origin[2] && s.Origin[2] + s.R > _hands.Right.Origin[2])
                         {
                             s.IsGrabbed = true;
                             _mod = Mod.GRAB;
@@ -276,7 +276,7 @@ namespace Kinteraction
             }
             else
             {
-                if (_hands.IsRightHandOpen)
+                if (_hands.Right.IsOpen)
                     if (s.IsGrabbed)
                     {
                         s.IsGrabbed = false;
@@ -289,20 +289,20 @@ namespace Kinteraction
         {
             if (_mod == Mod.GRAB)
             {
-                if (!_hands.IsLeftHandOpen)
+                if (!_hands.Left.IsOpen)
                 {
                     _mod = Mod.ZOOM;
-                    _dist = Euclid(_hands.TransL, _hands.TransR);
+                    _dist = Euclid(_hands.Left.Origin, _hands.Right.Origin);
                     _angle = new double[3]
                     {
-                        _hands.TransL[0] - _hands.TransR[0], _hands.TransL[1] - _hands.TransR[1],
-                        _hands.TransL[2] - _hands.TransR[2]
+                        _hands.Left.Origin[0] - _hands.Right.Origin[0], _hands.Left.Origin[1] - _hands.Right.Origin[1],
+                        _hands.Left.Origin[2] - _hands.Right.Origin[2]
                     };
                 }
             }
             else
             {
-                if (_hands.IsLeftHandOpen)
+                if (_hands.Left.IsOpen)
                 {
                     _mod = Mod.GRAB;
                     s.R += s.Rp;
