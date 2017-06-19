@@ -14,9 +14,6 @@ using Type = Kinteraction.Shapes.Type;
 
 namespace Kinteraction
 {
-    /// <summary>
-    ///     Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private const float InferredZPositionClamp = 0.1f;
@@ -119,33 +116,7 @@ namespace Kinteraction
             var dataReceived = false;
             var reference = e.FrameReference.AcquireFrame();
 
-            using (var colorFrame = reference.ColorFrameReference.AcquireFrame())
-            {
-                if (colorFrame != null)
-                {
-                    var colorFrameDescription = colorFrame.FrameDescription;
-
-                    using (var colorBuffer = colorFrame.LockRawImageBuffer())
-                    {
-                        _colorBitmap.Lock();
-
-                        // verify data and write the new color frame data to the display bitmap
-                        if (colorFrameDescription.Width == _colorBitmap.PixelWidth &&
-                            colorFrameDescription.Height == _colorBitmap.PixelHeight)
-                        {
-                            colorFrame.CopyConvertedFrameDataToIntPtr(
-                                _colorBitmap.BackBuffer,
-                                (uint) (colorFrameDescription.Width * colorFrameDescription.Height * 4),
-                                ColorImageFormat.Bgra);
-
-                            _colorBitmap.AddDirtyRect(
-                                new Int32Rect(0, 0, _colorBitmap.PixelWidth, _colorBitmap.PixelHeight));
-                        }
-
-                        _colorBitmap.Unlock();
-                    }
-                }
-            }
+            RenderImage(reference);
 
             using (var bodyFrame = reference.BodyFrameReference.AcquireFrame())
             {
@@ -187,6 +158,37 @@ namespace Kinteraction
                                    (int) _hands.Right.Point3D.X + "," + (int) _hands.Right.Point3D.Y + "," +
                                    (int) _hands.Right.Point3D.Z + ")";
                     }
+        }
+
+        private void RenderImage(MultiSourceFrame reference)
+        {
+            using (var colorFrame = reference.ColorFrameReference.AcquireFrame())
+            {
+                if (colorFrame != null)
+                {
+                    var colorFrameDescription = colorFrame.FrameDescription;
+
+                    using (var colorBuffer = colorFrame.LockRawImageBuffer())
+                    {
+                        _colorBitmap.Lock();
+
+                        // verify data and write the new color frame data to the display bitmap
+                        if (colorFrameDescription.Width == _colorBitmap.PixelWidth &&
+                            colorFrameDescription.Height == _colorBitmap.PixelHeight)
+                        {
+                            colorFrame.CopyConvertedFrameDataToIntPtr(
+                                _colorBitmap.BackBuffer,
+                                (uint) (colorFrameDescription.Width * colorFrameDescription.Height * 4),
+                                ColorImageFormat.Bgra);
+
+                            _colorBitmap.AddDirtyRect(
+                                new Int32Rect(0, 0, _colorBitmap.PixelWidth, _colorBitmap.PixelHeight));
+                        }
+
+                        _colorBitmap.Unlock();
+                    }
+                }
+            }
         }
 
         private void OpenGLControl_OpenGLDraw(object sender, OpenGLEventArgs args)

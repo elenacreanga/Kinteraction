@@ -41,7 +41,8 @@
                 VerticalAlignment="Bottom"/>
         </Grid>
         <frames:KinectViewer Grid.Column="1"
-                             VerticalAlignment="Top"></frames:KinectViewer>
+                             VerticalAlignment="Top"
+                             x:Name="viewer"></frames:KinectViewer>
     </Grid>
     
 </Window>
