@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 
 namespace Kinteraction.Helpers
 {
@@ -6,13 +6,7 @@ namespace Kinteraction.Helpers
     {
         public static double[] ToDoubles(this float[] floats)
         {
-            var doubles = new List<double>();
-            foreach (var f in floats)
-            {
-                var parsedDouble = System.Convert.ToDouble(f);
-                doubles.Add(parsedDouble);
-            }
-            return doubles.ToArray();
+            return floats.Select(System.Convert.ToDouble).ToArray();
         }
     }
 }

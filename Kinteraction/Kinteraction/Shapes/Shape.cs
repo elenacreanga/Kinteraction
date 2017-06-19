@@ -6,7 +6,7 @@ namespace Kinteraction.Shapes
     public abstract class Shape
     {
         public Color Color;
-        public bool Grabbed = false;
+        public bool IsGrabbed = false;
         public double[] Move = new double[3] {0, 0, 0};
         public double[] Origin = new double[3];
 

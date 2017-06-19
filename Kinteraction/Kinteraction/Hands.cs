@@ -1,25 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using Kinteraction.Helpers;
 using Kinteraction.Shapes;
 using SharpGL;
-using Type = Kinteraction.Shapes.Type;
 
 namespace Kinteraction
 {
     public class Hands
     {
-        internal bool _isLeftHandOpen = true;
-        internal bool _isRightHandOpen = true;
-
-        internal Point3D _leftHand;
-        internal Point3D _rightHand;
-
-        internal float[] transL = new float[3];
-        internal float[] transR = new float[3];
         private readonly ShapeFactory _shapeFactory;
+        internal bool IsLeftHandOpen = true;
+        internal bool IsRightHandOpen = true;
+
+        internal Point3D LeftHand;
+        internal Point3D RightHand;
+
+        internal float[] TransL = new float[3];
+        internal float[] TransR = new float[3];
 
 
         public Hands(ShapeFactory shapeFactory)
@@ -29,38 +26,38 @@ namespace Kinteraction
 
         public void Draw(OpenGL gl)
         {
-            transL = new float[3]
-                {(float) _leftHand.X / 10 - 30, -(float) _leftHand.Y / 10 + 20, (float) _leftHand.Z * 30 - 25};
-            transR = new float[3]
-                {(float) _rightHand.X / 10 - 30, -(float) _rightHand.Y / 10 + 20, (float) _rightHand.Z * 30 - 25};
-            transL = HandLimit(transL);
-            transR = HandLimit(transR);
+            TransL = new float[3]
+                {(float) LeftHand.X / 10 - 30, -(float) LeftHand.Y / 10 + 20, (float) LeftHand.Z * 30 - 25};
+            TransR = new float[3]
+                {(float) RightHand.X / 10 - 30, -(float) RightHand.Y / 10 + 20, (float) RightHand.Z * 30 - 25};
+            TransL = HandLimit(TransL);
+            TransR = HandLimit(TransR);
 
             //Left Hand
             Color lc;
-            if (_isLeftHandOpen)
+            if (IsLeftHandOpen)
                 lc = Colors.Aqua;
             else
                 lc = Colors.Red;
             var leftHand = _shapeFactory.GetShape(Type.Sphere);
-            leftHand.Origin = new[] {transL[0], transL[1], (double) transL[2]};
+            leftHand.Origin = new[] {TransL[0], TransL[1], (double) TransL[2]};
             leftHand.Color = lc;
             leftHand.R = 0.5;
             leftHand.Draw(gl);
-            DrawTracker(gl, transL.ToDoubles(), Colors.Aqua);
+            DrawTracker(gl, TransL.ToDoubles(), Colors.Aqua);
 
             //Right Hand
             Color rc;
-            if (_isRightHandOpen)
+            if (IsRightHandOpen)
                 rc = Colors.Orchid;
             else
                 rc = Colors.Red;
             var rightHand = _shapeFactory.GetShape(Type.Sphere);
-            rightHand.Origin = new[] {transR[0], transR[1], (double) transR[2]};
+            rightHand.Origin = new[] {TransR[0], TransR[1], (double) TransR[2]};
             rightHand.Color = rc;
             rightHand.R = 0.5;
             rightHand.Draw(gl);
-            DrawTracker(gl, transR.ToDoubles(), Colors.Orchid);
+            DrawTracker(gl, TransR.ToDoubles(), Colors.Orchid);
         }
 
         private static float[] HandLimit(float[] hand)

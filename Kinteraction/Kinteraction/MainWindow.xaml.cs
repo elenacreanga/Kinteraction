@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
+using Kinteraction.Helpers;
 using Kinteraction.Shapes;
 using Microsoft.Kinect;
 using SharpGL;
@@ -21,14 +22,13 @@ namespace Kinteraction
         private const float InferredZPositionClamp = 0.1f;
 
         private const float Multipier = 10;
-        private readonly BodyFrameReader _bodyFrameReader;
+        private readonly MultiSourceFrameReader _multiSourceFrameReader;
         private readonly WriteableBitmap _colorBitmap;
-        private readonly ColorFrameReader _colorFrameReader;
         private readonly CoordinateMapper _coordinateMapper;
 
         private readonly Hands _hands;
         private readonly KinectSensor _kinectSensor;
-        internal readonly ShapeFactory _shapeFactory;
+        private readonly ShapeFactory _shapeFactory;
         private readonly IList<Shape> _shapes;
         private double[] _angle;
         private Body[] _bodies;
@@ -42,16 +42,16 @@ namespace Kinteraction
         public MainWindow()
         {
             _kinectSensor = KinectSensor.GetDefault();
-            _colorFrameReader = _kinectSensor.ColorFrameSource.OpenReader();
-            _colorFrameReader.FrameArrived += Reader_ColorFrameArrived;
+            //_colorFrameReader = _kinectSensor.ColorFrameSource.OpenReader();
+            //_colorFrameReader.FrameArrived += Reader_ColorFrameArrived;
             var colorFrameDescription = _kinectSensor.ColorFrameSource.CreateFrameDescription(ColorImageFormat.Bayer);
             _colorBitmap = new WriteableBitmap(colorFrameDescription.Width, colorFrameDescription.Height, 96.0, 96.0,
                 PixelFormats.Bgr32, null);
-            _bodyFrameReader = _kinectSensor.BodyFrameSource.OpenReader();
+            _multiSourceFrameReader = _kinectSensor.OpenMultiSourceFrameReader(FrameSourceTypes.Color | FrameSourceTypes.Depth | FrameSourceTypes.Infrared | FrameSourceTypes.Body);
             _coordinateMapper = _kinectSensor.CoordinateMapper;
             var frameDescription = _kinectSensor.DepthFrameSource.FrameDescription;
-            if (_bodyFrameReader != null)
-                _bodyFrameReader.FrameArrived += Reader_FrameArrived;
+            if (_multiSourceFrameReader != null)
+                _multiSourceFrameReader.MultiSourceFrameArrived += Reader_FrameArrived;
             _kinectSensor.Open();
 
             DataContext = this;
@@ -114,53 +114,12 @@ namespace Kinteraction
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void Reader_FrameArrived(object sender, BodyFrameArrivedEventArgs e)
+        private void Reader_FrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)
         {
             var dataReceived = false;
-            using (var bodyFrame = e.FrameReference.AcquireFrame())
-            {
-                if (bodyFrame != null)
-                {
-                    if (_bodies == null)
-                        _bodies = new Body[bodyFrame.BodyCount];
-                    bodyFrame.GetAndRefreshBodyData(_bodies);
-                    dataReceived = true;
-                }
-            }
+            var reference = e.FrameReference.AcquireFrame();
 
-            if (dataReceived)
-                foreach (var body in _bodies)
-                    if (body.IsTracked)
-                    {
-                        var CLPos = body.Joints[JointType.HandLeft].Position;
-                        var CRPos = body.Joints[JointType.HandRight].Position;
-                        if (CLPos.Z < 0)
-                            CLPos.Z = InferredZPositionClamp;
-                        if (CRPos.Z < 0)
-                            CRPos.Z = InferredZPositionClamp;
-                        var DLPos = _coordinateMapper.MapCameraPointToDepthSpace(CLPos);
-                        var DRPos = _coordinateMapper.MapCameraPointToDepthSpace(CRPos);
-                        _hands._leftHand = new Point3D(DLPos.X, DLPos.Y, CLPos.Z);
-                        _hands._rightHand = new Point3D(DRPos.X, DRPos.Y, CRPos.Z);
-
-                        if (body.HandLeftState == HandState.Open || body.HandLeftState == HandState.Closed)
-                            _hands._isLeftHandOpen = body.HandLeftState == HandState.Open ? true : false;
-                        if (body.HandRightState == HandState.Open || body.HandRightState == HandState.Closed)
-                            _hands._isRightHandOpen = body.HandRightState == HandState.Open ? true : false;
-
-                        DetectedText = body.IsTracked ? Constants.Detected : Constants.NotDetected;
-                        HandText = "(" + (int) _hands._leftHand.X + "," + (int) _hands._leftHand.Y + "," +
-                                   (int) _hands._leftHand.Z +
-                                   ")\t(" +
-                                   (int) _hands._rightHand.X + "," + (int) _hands._rightHand.Y + "," +
-                                   (int) _hands._rightHand.Z + ")";
-                    }
-        }
-
-        private void Reader_ColorFrameArrived(object sender, ColorFrameArrivedEventArgs e)
-        {
-            // ColorFrame is IDisposable
-            using (var colorFrame = e.FrameReference.AcquireFrame())
+            using (var colorFrame = reference.ColorFrameReference.AcquireFrame())
             {
                 if (colorFrame != null)
                 {
@@ -176,7 +135,7 @@ namespace Kinteraction
                         {
                             colorFrame.CopyConvertedFrameDataToIntPtr(
                                 _colorBitmap.BackBuffer,
-                                (uint) (colorFrameDescription.Width * colorFrameDescription.Height * 4),
+                                (uint)(colorFrameDescription.Width * colorFrameDescription.Height * 4),
                                 ColorImageFormat.Bgra);
 
                             _colorBitmap.AddDirtyRect(
@@ -187,6 +146,51 @@ namespace Kinteraction
                     }
                 }
             }
+
+            using (var bodyFrame = reference.BodyFrameReference.AcquireFrame())
+            {
+                if (bodyFrame != null)
+                {
+                    if (_bodies == null)
+                        _bodies = new Body[bodyFrame.BodyCount];
+                    bodyFrame.GetAndRefreshBodyData(_bodies);
+                    dataReceived = true;
+                }
+            }
+
+            if (dataReceived)
+                foreach (var body in _bodies)
+                    if (body.IsTracked)
+                    {
+                        var leftHandPosition = body.Joints[JointType.HandLeft].Position;
+                        var rightHandPosition = body.Joints[JointType.HandRight].Position;
+                        if (leftHandPosition.Z < 0)
+                            leftHandPosition.Z = InferredZPositionClamp;
+                        if (rightHandPosition.Z < 0)
+                            rightHandPosition.Z = InferredZPositionClamp;
+                        var depthLeftHandPosition = _coordinateMapper.MapCameraPointToDepthSpace(leftHandPosition);
+                        var depthRightHandPosition = _coordinateMapper.MapCameraPointToDepthSpace(rightHandPosition);
+                        _hands.LeftHand = new Point3D(depthLeftHandPosition.X, depthLeftHandPosition.Y, leftHandPosition.Z);
+                        _hands.RightHand = new Point3D(depthRightHandPosition.X, depthRightHandPosition.Y, rightHandPosition.Z);
+
+                        if (body.HandLeftState == HandState.Open || body.HandLeftState == HandState.Closed)
+                            _hands.IsLeftHandOpen = body.HandLeftState == HandState.Open ? true : false;
+                        if (body.HandRightState == HandState.Open || body.HandRightState == HandState.Closed)
+                            _hands.IsRightHandOpen = body.HandRightState == HandState.Open ? true : false;
+
+                        DetectedText = body.IsTracked ? Constants.Detected : Constants.NotDetected;
+                        HandText = "(" + (int) _hands.LeftHand.X + "," + (int) _hands.LeftHand.Y + "," +
+                                   (int) _hands.LeftHand.Z +
+                                   ")\t(" +
+                                   (int) _hands.RightHand.X + "," + (int) _hands.RightHand.Y + "," +
+                                   (int) _hands.RightHand.Z + ")";
+                    }
+        }
+
+        private void Reader_ColorFrameArrived(object sender, ColorFrameArrivedEventArgs e)
+        {
+            // ColorFrame is IDisposable
+            
         }
 
         private void OpenGLControl_OpenGLDraw(object sender, OpenGLEventArgs args)
@@ -230,19 +234,19 @@ namespace Kinteraction
             ModText = Enum.GetName(typeof(Mod), _mod);
             Console.WriteLine(_mod);
             if (_mod == Mod.GRAB || _mod == Mod.ZOOM)
-                if (s.Grabbed)
+                if (s.IsGrabbed)
                 {
-                    for (var k = 0; k < 3; k++) s.Origin[k] = _hands.transR[k];
+                    for (var k = 0; k < 3; k++) s.Origin[k] = _hands.TransR[k];
                     IsZoom(s);
                     if (_mod == Mod.ZOOM)
                     {
-                        Console.WriteLine(s.R + " " + _dist + " " + Euclid(_hands.transL, _hands.transR));
-                        s.Rp = (Euclid(_hands.transL, _hands.transR) - _dist) * 0.3;
+                        Console.WriteLine(s.R + " " + _dist + " " + Euclid(_hands.TransL, _hands.TransR));
+                        s.Rp = (Euclid(_hands.TransL, _hands.TransR) - _dist) * 0.3;
                         s.Rop = new double[3]
                         {
-                            _hands.transL[0] - _hands.transR[0] - _angle[0],
-                            _hands.transL[1] - _hands.transR[1] - _angle[1],
-                            _hands.transL[2] - _hands.transR[2] - _angle[2]
+                            _hands.TransL[0] - _hands.TransR[0] - _angle[0],
+                            _hands.TransL[1] - _hands.TransR[1] - _angle[1],
+                            _hands.TransL[2] - _hands.TransR[2] - _angle[2]
                         };
                     }
                 }
@@ -260,22 +264,22 @@ namespace Kinteraction
         {
             if (_mod == Mod.FREE)
             {
-                if (!_hands._isRightHandOpen)
-                    if (!s.Grabbed)
-                        if (s.Origin[0] - s.R < _hands.transR[0] && s.Origin[0] + s.R > _hands.transR[0] &&
-                            s.Origin[1] - s.R < _hands.transR[1] && s.Origin[1] + s.R > _hands.transR[1] &&
-                            s.Origin[2] - s.R < _hands.transR[2] && s.Origin[2] + s.R > _hands.transR[2])
+                if (!_hands.IsRightHandOpen)
+                    if (!s.IsGrabbed)
+                        if (s.Origin[0] - s.R < _hands.TransR[0] && s.Origin[0] + s.R > _hands.TransR[0] &&
+                            s.Origin[1] - s.R < _hands.TransR[1] && s.Origin[1] + s.R > _hands.TransR[1] &&
+                            s.Origin[2] - s.R < _hands.TransR[2] && s.Origin[2] + s.R > _hands.TransR[2])
                         {
-                            s.Grabbed = true;
+                            s.IsGrabbed = true;
                             _mod = Mod.GRAB;
                         }
             }
             else
             {
-                if (_hands._isRightHandOpen)
-                    if (s.Grabbed)
+                if (_hands.IsRightHandOpen)
+                    if (s.IsGrabbed)
                     {
-                        s.Grabbed = false;
+                        s.IsGrabbed = false;
                         _mod = Mod.FREE;
                     }
             }
@@ -285,20 +289,20 @@ namespace Kinteraction
         {
             if (_mod == Mod.GRAB)
             {
-                if (!_hands._isLeftHandOpen)
+                if (!_hands.IsLeftHandOpen)
                 {
                     _mod = Mod.ZOOM;
-                    _dist = Euclid(_hands.transL, _hands.transR);
+                    _dist = Euclid(_hands.TransL, _hands.TransR);
                     _angle = new double[3]
                     {
-                        _hands.transL[0] - _hands.transR[0], _hands.transL[1] - _hands.transR[1],
-                        _hands.transL[2] - _hands.transR[2]
+                        _hands.TransL[0] - _hands.TransR[0], _hands.TransL[1] - _hands.TransR[1],
+                        _hands.TransL[2] - _hands.TransR[2]
                     };
                 }
             }
             else
             {
-                if (_hands._isLeftHandOpen)
+                if (_hands.IsLeftHandOpen)
                 {
                     _mod = Mod.GRAB;
                     s.R += s.Rp;

@@ -1,4 +1,4 @@
-﻿namespace Kinteraction
+﻿namespace Kinteraction.Helpers
 {
     public static class Constants
     {
