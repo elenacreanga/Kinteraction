@@ -22,12 +22,12 @@ namespace Kinteraction
         private const float InferredZPositionClamp = 0.1f;
 
         private const float Multipier = 10;
-        private readonly MultiSourceFrameReader _multiSourceFrameReader;
         private readonly WriteableBitmap _colorBitmap;
         private readonly CoordinateMapper _coordinateMapper;
 
         private readonly Hands _hands;
         private readonly KinectSensor _kinectSensor;
+        private readonly MultiSourceFrameReader _multiSourceFrameReader;
         private readonly ShapeFactory _shapeFactory;
         private readonly IList<Shape> _shapes;
         private double[] _angle;
@@ -42,12 +42,12 @@ namespace Kinteraction
         public MainWindow()
         {
             _kinectSensor = KinectSensor.GetDefault();
-            //_colorFrameReader = _kinectSensor.ColorFrameSource.OpenReader();
-            //_colorFrameReader.FrameArrived += Reader_ColorFrameArrived;
             var colorFrameDescription = _kinectSensor.ColorFrameSource.CreateFrameDescription(ColorImageFormat.Bayer);
             _colorBitmap = new WriteableBitmap(colorFrameDescription.Width, colorFrameDescription.Height, 96.0, 96.0,
                 PixelFormats.Bgr32, null);
-            _multiSourceFrameReader = _kinectSensor.OpenMultiSourceFrameReader(FrameSourceTypes.Color | FrameSourceTypes.Depth | FrameSourceTypes.Infrared | FrameSourceTypes.Body);
+            _multiSourceFrameReader =
+                _kinectSensor.OpenMultiSourceFrameReader(FrameSourceTypes.Color | FrameSourceTypes.Depth |
+                                                         FrameSourceTypes.Infrared | FrameSourceTypes.Body);
             _coordinateMapper = _kinectSensor.CoordinateMapper;
             var frameDescription = _kinectSensor.DepthFrameSource.FrameDescription;
             if (_multiSourceFrameReader != null)
@@ -135,7 +135,7 @@ namespace Kinteraction
                         {
                             colorFrame.CopyConvertedFrameDataToIntPtr(
                                 _colorBitmap.BackBuffer,
-                                (uint)(colorFrameDescription.Width * colorFrameDescription.Height * 4),
+                                (uint) (colorFrameDescription.Width * colorFrameDescription.Height * 4),
                                 ColorImageFormat.Bgra);
 
                             _colorBitmap.AddDirtyRect(
@@ -170,27 +170,23 @@ namespace Kinteraction
                             rightHandPosition.Z = InferredZPositionClamp;
                         var depthLeftHandPosition = _coordinateMapper.MapCameraPointToDepthSpace(leftHandPosition);
                         var depthRightHandPosition = _coordinateMapper.MapCameraPointToDepthSpace(rightHandPosition);
-                        _hands.LeftHand = new Point3D(depthLeftHandPosition.X, depthLeftHandPosition.Y, leftHandPosition.Z);
-                        _hands.RightHand = new Point3D(depthRightHandPosition.X, depthRightHandPosition.Y, rightHandPosition.Z);
+                        _hands.Left.Point3D = new Point3D(depthLeftHandPosition.X, depthLeftHandPosition.Y,
+                            leftHandPosition.Z);
+                        _hands.Right.Point3D = new Point3D(depthRightHandPosition.X, depthRightHandPosition.Y,
+                            rightHandPosition.Z);
 
                         if (body.HandLeftState == HandState.Open || body.HandLeftState == HandState.Closed)
-                            _hands.Left.IsOpen = body.HandLeftState == HandState.Open ? true : false;
+                            _hands.Left.IsOpen = body.HandLeftState == HandState.Open;
                         if (body.HandRightState == HandState.Open || body.HandRightState == HandState.Closed)
-                            _hands.Right.IsOpen = body.HandRightState == HandState.Open ? true : false;
+                            _hands.Right.IsOpen = body.HandRightState == HandState.Open;
 
                         DetectedText = body.IsTracked ? Constants.Detected : Constants.NotDetected;
-                        HandText = "(" + (int) _hands.LeftHand.X + "," + (int) _hands.LeftHand.Y + "," +
-                                   (int) _hands.LeftHand.Z +
+                        HandText = "(" + (int) _hands.Left.Point3D.X + "," + (int) _hands.Left.Point3D.Y + "," +
+                                   (int) _hands.Left.Point3D.Z +
                                    ")\t(" +
-                                   (int) _hands.RightHand.X + "," + (int) _hands.RightHand.Y + "," +
-                                   (int) _hands.RightHand.Z + ")";
+                                   (int) _hands.Right.Point3D.X + "," + (int) _hands.Right.Point3D.Y + "," +
+                                   (int) _hands.Right.Point3D.Z + ")";
                     }
-        }
-
-        private void Reader_ColorFrameArrived(object sender, ColorFrameArrivedEventArgs e)
-        {
-            // ColorFrame is IDisposable
-            
         }
 
         private void OpenGLControl_OpenGLDraw(object sender, OpenGLEventArgs args)

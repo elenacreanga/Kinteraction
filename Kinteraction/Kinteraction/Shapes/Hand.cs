@@ -1,51 +1,27 @@
 ﻿using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using Kinteraction.Helpers;
-using Kinteraction.Shapes;
 using SharpGL;
 
-namespace Kinteraction
+namespace Kinteraction.Shapes
 {
-    public class Hands
+    public class Hand
     {
         private readonly ShapeFactory _shapeFactory;
-        public Hand Left;
-        public Hand Right;
 
-        internal Point3D LeftHand;
-        internal Point3D RightHand;
-
-
-
-        public Hands(ShapeFactory shapeFactory)
+        public Hand(ShapeFactory shapeFactory)
         {
             _shapeFactory = shapeFactory;
-            Left = new Hand();
-            Right = new Hand();
+            IsOpen = true;
+            Origin = new float[3];
         }
 
-        public void Draw(OpenGL gl)
-        {
-            AdjustOrigins();
+        public bool IsOpen { get; set; }
+        public float[] Origin { get; set; }
 
-            //Left Hand
-            DrawHand(gl, Colors.Aqua, Left);
+        public Point3D Point3D { get; set; }
 
-            //Right Hand
-            DrawHand(gl, Colors.Orchid, Right);
-        }
-
-        private void AdjustOrigins()
-        {
-            Left.Origin = new float[3]
-                {(float) LeftHand.X / 10 - 30, -(float) LeftHand.Y / 10 + 20, (float) LeftHand.Z * 30 - 25};
-            Right.Origin = new float[3]
-                {(float) RightHand.X / 10 - 30, -(float) RightHand.Y / 10 + 20, (float) RightHand.Z * 30 - 25};
-            Left.Origin = HandLimit(Left.Origin);
-            Right.Origin = HandLimit(Right.Origin);
-        }
-
-        private void DrawHand(OpenGL gl, Color handColor, Hand hand)
+        public void Draw(OpenGL gl, Color handColor, Hand hand)
         {
             var currentColor = hand.IsOpen ? handColor : Colors.Red;
             var shape = _shapeFactory.GetShape(Type.Sphere);
@@ -54,6 +30,14 @@ namespace Kinteraction
             shape.R = 0.5;
             shape.Draw(gl);
             DrawTracker(gl, hand.Origin.ToDoubles(), handColor);
+        }
+
+        internal static void AdjustOrigin(Hand hand)
+        {
+            hand.Origin = new float[3]
+                {(float) hand.Point3D.X / 10 - 30, -(float) hand.Point3D.Y / 10 + 20, (float) hand.Point3D.Z * 30 - 25};
+
+            hand.Origin = HandLimit(hand.Origin);
         }
 
         private static float[] HandLimit(float[] hand)
@@ -72,6 +56,7 @@ namespace Kinteraction
             if (hand[2] < zMin) hand[2] = zMin;
             return hand;
         }
+
 
         private void DrawTracker(OpenGL gl, double[] origin, Color color)
         {

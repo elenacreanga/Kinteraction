@@ -75,12 +75,12 @@
     <Compile Include="Gestures\Gesture.cs" />
     <Compile Include="Gestures\GestureEventArgs.cs" />
     <Compile Include="Gestures\GestureFacade.cs" />
-    <Compile Include="Hands.cs" />
+    <Compile Include="Shapes\Hands.cs" />
     <Compile Include="Helpers\Conversions.cs" />
     <Compile Include="Gestures\ISegment.cs" />
     <Compile Include="Shapes\Axis.cs" />
     <Compile Include="Shapes\Cube.cs" />
-    <Compile Include="Hand.cs" />
+    <Compile Include="Shapes\Hand.cs" />
     <Compile Include="Shapes\Pyramid.cs" />
     <Compile Include="Shapes\Shape.cs" />
     <Compile Include="Shapes\ShapeFactory.cs" />
