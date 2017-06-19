@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Media.Media3D;
 using Kinteraction.Helpers;
 using Kinteraction.Shapes;
 using Microsoft.Kinect;
@@ -16,11 +15,8 @@ namespace Kinteraction
 {
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        private const float InferredZPositionClamp = 0.1f;
-
         private const float Multipier = 10;
         private readonly WriteableBitmap _colorBitmap;
-        private readonly CoordinateMapper _coordinateMapper;
 
         private readonly Hands _hands;
         private readonly KinectSensor _kinectSensor;
@@ -29,8 +25,9 @@ namespace Kinteraction
         private readonly IList<Shape> _shapes;
         private double[] _angle;
         private Body[] _bodies;
-        private string _detectedText = Constants.NotDetected;
+        private string _detectedText;
         private float _dist;
+
         private string _handText = Constants.HandPosition;
 
         private Mod _mod = Mod.FREE;
@@ -45,8 +42,6 @@ namespace Kinteraction
             _multiSourceFrameReader =
                 _kinectSensor.OpenMultiSourceFrameReader(FrameSourceTypes.Color | FrameSourceTypes.Depth |
                                                          FrameSourceTypes.Infrared | FrameSourceTypes.Body);
-            _coordinateMapper = _kinectSensor.CoordinateMapper;
-            var frameDescription = _kinectSensor.DepthFrameSource.FrameDescription;
             if (_multiSourceFrameReader != null)
                 _multiSourceFrameReader.MultiSourceFrameArrived += Reader_FrameArrived;
             _kinectSensor.Open();
@@ -61,42 +56,11 @@ namespace Kinteraction
                 _shapeFactory.GetShape(Type.Pyramid)
             };
             InitializeComponent();
-            _hands = new Hands(_shapeFactory);
+            _hands = new Hands(_shapeFactory, _kinectSensor.CoordinateMapper);
+            _hands.PropertyChanged += TextProperties_Changed;
         }
 
         public ImageSource ImageSource => _colorBitmap;
-
-        public string DetectedText
-        {
-            get { return _detectedText; }
-            set
-            {
-                if (_detectedText != value)
-                {
-                    _detectedText = value;
-
-                    // notify any bound elements that the text has changed
-                    if (PropertyChanged != null)
-                        PropertyChanged(this, new PropertyChangedEventArgs("DetectedText"));
-                }
-            }
-        }
-
-        public string HandText
-        {
-            get { return _handText; }
-            set
-            {
-                if (_handText != value)
-                {
-                    _handText = value;
-
-                    // notify any bound elements that the text has changed
-                    if (PropertyChanged != null)
-                        PropertyChanged(this, new PropertyChangedEventArgs("HandText"));
-                }
-            }
-        }
 
         public string ModText
         {
@@ -104,12 +68,40 @@ namespace Kinteraction
             set
             {
                 _modText = value;
-                if (PropertyChanged != null)
-                    PropertyChanged(this, new PropertyChangedEventArgs("ModText"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ModText"));
+            }
+        }
+
+        public string DetectedText
+        {
+            get => _detectedText;
+            set
+            {
+                if (_detectedText == value) return;
+                _detectedText = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("DetectedText"));
+            }
+        }
+
+        public string HandText
+        {
+            get => _handText;
+            set
+            {
+                if (_handText == value) return;
+                _handText = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("HandText"));
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void TextProperties_Changed(object sender, EventArgs e)
+        {
+            var hands = (Hands) sender;
+            DetectedText = hands.DetectedText;
+            HandText = hands.HandText;
+        }
 
         private void Reader_FrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)
         {
@@ -132,32 +124,7 @@ namespace Kinteraction
             if (dataReceived)
                 foreach (var body in _bodies)
                     if (body.IsTracked)
-                    {
-                        var leftHandPosition = body.Joints[JointType.HandLeft].Position;
-                        var rightHandPosition = body.Joints[JointType.HandRight].Position;
-                        if (leftHandPosition.Z < 0)
-                            leftHandPosition.Z = InferredZPositionClamp;
-                        if (rightHandPosition.Z < 0)
-                            rightHandPosition.Z = InferredZPositionClamp;
-                        var depthLeftHandPosition = _coordinateMapper.MapCameraPointToDepthSpace(leftHandPosition);
-                        var depthRightHandPosition = _coordinateMapper.MapCameraPointToDepthSpace(rightHandPosition);
-                        _hands.Left.Point3D = new Point3D(depthLeftHandPosition.X, depthLeftHandPosition.Y,
-                            leftHandPosition.Z);
-                        _hands.Right.Point3D = new Point3D(depthRightHandPosition.X, depthRightHandPosition.Y,
-                            rightHandPosition.Z);
-
-                        if (body.HandLeftState == HandState.Open || body.HandLeftState == HandState.Closed)
-                            _hands.Left.IsOpen = body.HandLeftState == HandState.Open;
-                        if (body.HandRightState == HandState.Open || body.HandRightState == HandState.Closed)
-                            _hands.Right.IsOpen = body.HandRightState == HandState.Open;
-
-                        DetectedText = body.IsTracked ? Constants.Detected : Constants.NotDetected;
-                        HandText = "(" + (int) _hands.Left.Point3D.X + "," + (int) _hands.Left.Point3D.Y + "," +
-                                   (int) _hands.Left.Point3D.Z +
-                                   ")\t(" +
-                                   (int) _hands.Right.Point3D.X + "," + (int) _hands.Right.Point3D.Y + "," +
-                                   (int) _hands.Right.Point3D.Z + ")";
-                    }
+                        _hands.UpdateHandsState(body);
         }
 
         private void RenderImage(MultiSourceFrame reference)
