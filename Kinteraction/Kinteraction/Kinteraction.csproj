@@ -71,13 +71,14 @@
     <Compile Include="Frames\KinectViewer.xaml.cs">
       <DependentUpon>KinectViewer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Poses\Gestures\Segments\WaveSegment.cs" />
     <Compile Include="Helpers\Constants.cs" />
-    <Compile Include="Gestures\Gesture.cs" />
-    <Compile Include="Gestures\GestureEventArgs.cs" />
-    <Compile Include="Gestures\GestureFacade.cs" />
+    <Compile Include="Poses\Gestures\Gesture.cs" />
+    <Compile Include="Poses\Gestures\GestureEventArgs.cs" />
+    <Compile Include="Poses\Gestures\GestureFacade.cs" />
     <Compile Include="Shapes\Hands.cs" />
     <Compile Include="Helpers\Conversions.cs" />
-    <Compile Include="Gestures\ISegment.cs" />
+    <Compile Include="Poses\Gestures\ISegment.cs" />
     <Compile Include="Shapes\Axis.cs" />
     <Compile Include="Shapes\Cube.cs" />
     <Compile Include="Shapes\Hand.cs" />

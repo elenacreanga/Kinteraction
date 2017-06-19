@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Kinect;
 
-namespace Kinteraction.Gestures
+namespace Kinteraction.Poses.Gestures
 {
     internal class Gesture
     {
@@ -87,6 +87,8 @@ namespace Kinteraction.Gestures
     {
         SwipeRight,
         SwipeLeft,
+        WaveRight,
+        WaveLeft,
         ZoomIn,
         ZoomOut
     }

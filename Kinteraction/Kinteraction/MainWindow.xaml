@@ -20,8 +20,9 @@
                 HorizontalAlignment="Left" 
                 Margin="10,0,0,9" 
                 TextWrapping="Wrap" 
-                Foreground="Green" 
-                Text="{Binding DetectedText}"  
+                Foreground="Green"
+                x:Name="DetectedText"
+                Text="-"  
                 VerticalAlignment="Bottom" Width="117"
             />
             <TextBlock
@@ -29,7 +30,8 @@
                 Margin="10,0,0,29" 
                 TextWrapping="Wrap" 
                 Foreground="Yellow" 
-                Text="{Binding HandText}" 
+                Text="-"
+                x:Name="HandText"
                 VerticalAlignment="Bottom" 
                 Width="196"/>
             <TextBlock 

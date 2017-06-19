@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Kinteraction.Poses.Gestures.Segments;
 using Microsoft.Kinect;
 
-namespace Kinteraction.Gestures
+namespace Kinteraction.Poses.Gestures
 {
     public class GestureFacade : BaseFacade<Body>
     {
@@ -42,6 +43,18 @@ namespace Kinteraction.Gestures
                 case Type.SwipeLeft:
                     break;
                 case Type.SwipeRight:
+                    break;
+                case Type.WaveRight:
+                    segments = new ISegment[6];
+                    var waveRightSegment1 = new FirstWaveSegment();
+                    var waveRightSegment2 = new SecondWaveSegment();
+
+                    segments[0] = waveRightSegment1;
+                    segments[1] = waveRightSegment2;
+                    segments[2] = waveRightSegment1;
+                    segments[3] = waveRightSegment2;
+                    segments[4] = waveRightSegment1;
+                    segments[5] = waveRightSegment2;
                     break;
                 case Type.ZoomIn:
                     break;

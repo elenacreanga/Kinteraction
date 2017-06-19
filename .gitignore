@@ -286,3 +286,5 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+/Kinteraction/Kinteraction/Helpers/ImageExtensions.cs
+/Kinteraction/Kinteraction/Helpers/Bitmaps/ColorBitmapGenerator.cs
