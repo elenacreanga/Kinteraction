@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Kinect;
 
-namespace Kinteraction.Poses.Gestures
+namespace Kinteraction.Kinteract.Gestures
 {
     internal class Gesture
     {
@@ -90,7 +90,8 @@ namespace Kinteraction.Poses.Gestures
         WaveRight,
         WaveLeft,
         ZoomIn,
-        ZoomOut
+        ZoomOut,
+        CrossedArms
     }
 
     public enum Outcome

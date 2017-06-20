@@ -1,6 +1,6 @@
 ﻿using Microsoft.Kinect;
 
-namespace Kinteraction.Poses.Gestures
+namespace Kinteraction.Kinteract.Gestures
 {
     public interface ISegment
     {

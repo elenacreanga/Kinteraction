@@ -42,9 +42,28 @@
                 Text="{Binding ModText}" 
                 VerticalAlignment="Bottom"/>
         </Grid>
-        <frames:KinectViewer Grid.Column="1"
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+        <frames:KinectViewer 
+                            Grid.Row="0"
                              VerticalAlignment="Top"
                              x:Name="viewer"></frames:KinectViewer>
+            <Grid Grid.Row="1" Margin="10,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0"  Foreground="DarkGreen" FontSize="20" TextWrapping="Wrap" Text="Commands:"></TextBlock>
+                <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="Grab object with right hand for moving."></TextBlock>
+                <TextBlock Grid.Row="2" TextWrapping="Wrap" Text="Grab object and grab left hand for transforming."></TextBlock>
+                <TextBlock Grid.Row="3" TextWrapping="Wrap" Text="Wave for clearing the board."></TextBlock>
+            </Grid>
+        </Grid>
     </Grid>
     
 </Window>

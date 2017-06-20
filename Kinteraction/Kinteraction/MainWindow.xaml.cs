@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Kinteraction.Helpers;
-using Kinteraction.Poses.Gestures;
+using Kinteraction.Kinteract.Gestures;
 using Kinteraction.Shapes;
 using Microsoft.Kinect;
 using SharpGL;
@@ -29,7 +29,7 @@ namespace Kinteraction
         private float _dist;
 
         private Mod _mod = Mod.FREE;
-        private string _modText = Constants.HandStatus;
+        private string _modText = Helpers.Constants.HandStatus;
         private GestureFacade _gestureFacade;
 
         public MainWindow()
@@ -81,7 +81,6 @@ namespace Kinteraction
             var hands = (Hands) sender;
             DetectedText.Text = hands.DetectedText;
             HandText.Text = hands.HandText;
-            //ModText.Text = hands.ModText;
         }
 
         private void Reader_FrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)
@@ -278,7 +277,7 @@ namespace Kinteraction
 
         private void GestureFacade_GestureRecognized(object sender, GestureEventArgs e)
         {
-            if (e.Type == Poses.Gestures.Type.WaveRight)
+            if (e.Type == Kinteract.Gestures.Type.WaveRight)
             {
                 if (_mod == Mod.FREE)
                 {

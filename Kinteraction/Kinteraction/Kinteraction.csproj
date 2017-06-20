@@ -71,14 +71,32 @@
     <Compile Include="Frames\KinectViewer.xaml.cs">
       <DependentUpon>KinectViewer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Poses\Gestures\Segments\WaveSegment.cs" />
+    <Compile Include="Kinteract\Gestures\Constants.cs" />
+    <Compile Include="Kinteract\Gestures\Segments\CrossedArmsSegment.cs" />
+    <Compile Include="Kinteract\Poses\Distance.cs" />
+    <Compile Include="Kinteract\Poses\Distance\BodyGraph.cs" />
+    <Compile Include="Kinteract\Poses\Distance\Dijkstra.cs" />
+    <Compile Include="Kinteract\Poses\Distance\Neighbour.cs" />
+    <Compile Include="Kinteract\Poses\Distance\Node.cs" />
+    <Compile Include="Kinteract\Poses\FunctionalPosture.cs" />
+    <Compile Include="Kinteract\Gestures\Segments\WaveSegment.cs" />
     <Compile Include="Helpers\Constants.cs" />
-    <Compile Include="Poses\Gestures\Gesture.cs" />
-    <Compile Include="Poses\Gestures\GestureEventArgs.cs" />
-    <Compile Include="Poses\Gestures\GestureFacade.cs" />
+    <Compile Include="Kinteract\Gestures\Gesture.cs" />
+    <Compile Include="Kinteract\Gestures\GestureEventArgs.cs" />
+    <Compile Include="Kinteract\Gestures\GestureFacade.cs" />
+    <Compile Include="Kinteract\Poses\Helpers\KinectExtension.cs" />
+    <Compile Include="Kinteract\Poses\JointPath.cs" />
+    <Compile Include="Kinteract\Poses\Pose.cs" />
+    <Compile Include="Kinteract\Poses\LogicalPoses\AndPosture.cs" />
+    <Compile Include="Kinteract\Poses\LogicalPoses\BinaryPosture.cs" />
+    <Compile Include="Kinteract\Poses\LogicalPoses\NotPosture.cs" />
+    <Compile Include="Kinteract\Poses\LogicalPoses\OrPosture.cs" />
+    <Compile Include="Kinteract\Poses\Posture.cs" />
+    <Compile Include="Kinteract\Poses\Helpers\RatioCalculator.cs" />
+    <Compile Include="Kinteract\Poses\Selectors\JointSelector.cs" />
     <Compile Include="Shapes\Hands.cs" />
     <Compile Include="Helpers\Conversions.cs" />
-    <Compile Include="Poses\Gestures\ISegment.cs" />
+    <Compile Include="Kinteract\Gestures\ISegment.cs" />
     <Compile Include="Shapes\Axis.cs" />
     <Compile Include="Shapes\Cube.cs" />
     <Compile Include="Shapes\Hand.cs" />

@@ -57,7 +57,6 @@ namespace Kinteraction.Shapes
             return hand;
         }
 
-
         private void DrawTracker(OpenGL gl, double[] origin, Color color)
         {
             var tracker = _shapeFactory.GetShape(Type.Tracker);

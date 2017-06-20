@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kinteraction.Poses.Gestures
+namespace Kinteraction.Kinteract.Gestures
 {
     public class GestureEventArgs : EventArgs
     {

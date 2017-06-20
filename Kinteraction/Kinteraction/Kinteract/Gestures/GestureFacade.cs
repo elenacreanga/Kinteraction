@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Kinteraction.Poses.Gestures.Segments;
+using Kinteraction.Kinteract.Gestures.Segments;
 using Microsoft.Kinect;
 
-namespace Kinteraction.Poses.Gestures
+namespace Kinteraction.Kinteract.Gestures
 {
     public class GestureFacade : BaseFacade<Body>
     {
@@ -55,6 +55,12 @@ namespace Kinteraction.Poses.Gestures
                     segments[3] = waveRightSegment2;
                     segments[4] = waveRightSegment1;
                     segments[5] = waveRightSegment2;
+                    break;
+                case Type.CrossedArms:
+                    segments = new ISegment[3];
+                    var crossedArmsSegment = new CrossedArmsSegment();
+                    segments[0] = crossedArmsSegment;
+                    segments[1] = crossedArmsSegment;
                     break;
                 case Type.ZoomIn:
                     break;
