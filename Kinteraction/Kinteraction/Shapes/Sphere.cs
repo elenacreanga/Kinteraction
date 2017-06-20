@@ -7,7 +7,7 @@ namespace Kinteraction.Shapes
     {
         public Sphere()
         {
-            Origin = new double[3] { 0, -5, 0 };
+            Origin = new double[3] {0, -5, 0};
             Color = Colors.DarkCyan;
             R = 2;
         }
@@ -29,9 +29,9 @@ namespace Kinteraction.Shapes
                 gl.QuadricDrawStyle(sphere, OpenGL.GL_LINES);
             gl.QuadricDrawStyle(sphere, OpenGL.GL_QUADS);
             gl.QuadricNormals(sphere, OpenGL.GLU_NONE); //GLU_NONE,GLU_FLAT,GLU_SMOOTH
-            gl.QuadricOrientation(sphere, (int)OpenGL.GLU_OUTSIDE); //GLU_OUTSIDE,GLU_INSIDE
-            gl.QuadricTexture(sphere, (int)OpenGL.GLU_TRUE); //GL_TRUE,GLU_FALSE
-            gl.Sphere(sphere, R + Rp, (int)(R + 1) * 10, (int)(R + 1) * 10);
+            gl.QuadricOrientation(sphere, (int) OpenGL.GLU_OUTSIDE); //GLU_OUTSIDE,GLU_INSIDE
+            gl.QuadricTexture(sphere, (int) OpenGL.GLU_TRUE); //GL_TRUE,GLU_FALSE
+            gl.Sphere(sphere, R + Rp, (int) (R + 1) * 10, (int) (R + 1) * 10);
             gl.DeleteQuadric(sphere);
             gl.PopMatrix();
         }

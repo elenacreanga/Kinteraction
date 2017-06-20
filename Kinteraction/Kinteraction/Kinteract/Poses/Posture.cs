@@ -10,15 +10,22 @@ namespace Kinteraction.Kinteract.Poses
 
         public static implicit operator Func<Body, double>(Posture posture)
         {
-            return (body) => posture.Matches(body);
+            return posture.Matches;
         }
 
         public static explicit operator Posture(Func<Body, double> function)
-            => new FunctionalPosture(function);
+        {
+            return new FunctionalPosture(function);
+        }
 
-        public static Posture operator &(Posture p, Posture q) => new AndPosture(p, q);
+        public static Posture operator &(Posture p, Posture q)
+        {
+            return new AndPosture(p, q);
+        }
 
-        public static Posture operator |(Posture p, Posture q) => new OrPosture(p, q);
-
+        public static Posture operator |(Posture p, Posture q)
+        {
+            return new OrPosture(p, q);
+        }
     }
 }

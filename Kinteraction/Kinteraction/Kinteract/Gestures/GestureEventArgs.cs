@@ -4,10 +4,6 @@ namespace Kinteraction.Kinteract.Gestures
 {
     public class GestureEventArgs : EventArgs
     {
-        public Type Type { get; }
-
-        public ulong TrackingId { get; }
-
         public GestureEventArgs()
         {
         }
@@ -17,5 +13,9 @@ namespace Kinteraction.Kinteract.Gestures
             Type = type;
             TrackingId = trackingId;
         }
+
+        public Type Type { get; }
+
+        public ulong TrackingId { get; }
     }
 }

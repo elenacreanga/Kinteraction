@@ -5,7 +5,7 @@ using System.Windows.Media;
 namespace Kinteraction.Frames
 {
     /// <summary>
-    /// Interaction logic for KinectViewer.xaml
+    ///     Interaction logic for KinectViewer.xaml
     /// </summary>
     public partial class KinectViewer : UserControl
     {
@@ -18,11 +18,13 @@ namespace Kinteraction.Frames
             {BrushType.LightPink, new SolidColorBrush(Colors.LightPink)},
             {BrushType.LightSeaGreen, new SolidColorBrush(Colors.LightSeaGreen)}
         };
+
         public KinectViewer()
         {
             InitializeComponent();
         }
     }
+
     public enum BrushType
     {
         LightCyan = 0,

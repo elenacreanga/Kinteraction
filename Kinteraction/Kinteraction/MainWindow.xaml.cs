@@ -4,12 +4,12 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Kinteraction.Helpers;
 using Kinteraction.Kinteract.Gestures;
 using Kinteraction.Shapes;
 using Microsoft.Kinect;
 using SharpGL;
 using SharpGL.SceneGraph;
+using Constants = Kinteraction.Helpers.Constants;
 using Type = Kinteraction.Shapes.Type;
 
 namespace Kinteraction
@@ -27,10 +27,10 @@ namespace Kinteraction
         private double[] _angle;
         private Body[] _bodies;
         private float _dist;
+        private readonly GestureFacade _gestureFacade;
 
         private Mod _mod = Mod.FREE;
-        private string _modText = Helpers.Constants.HandStatus;
-        private GestureFacade _gestureFacade;
+        private string _modText = Constants.HandStatus;
 
         public MainWindow()
         {
@@ -278,12 +278,8 @@ namespace Kinteraction
         private void GestureFacade_GestureRecognized(object sender, GestureEventArgs e)
         {
             if (e.Type == Kinteract.Gestures.Type.WaveRight)
-            {
                 if (_mod == Mod.FREE)
-                {
                     _shapes.Clear();
-                }
-            }
         }
 
         private enum Mod

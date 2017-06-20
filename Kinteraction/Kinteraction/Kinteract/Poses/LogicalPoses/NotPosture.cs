@@ -9,7 +9,7 @@ namespace Kinteraction.Kinteract.Poses.LogicalPoses
             Operand = operand;
         }
 
-        public Posture Operand { get; private set; }
+        public Posture Operand { get; }
 
         public override double Matches(Body body)
         {

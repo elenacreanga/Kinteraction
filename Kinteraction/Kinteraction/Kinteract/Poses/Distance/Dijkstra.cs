@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Kinect;
 
 namespace Kinteraction.Kinteract.Poses.Distance
@@ -10,7 +9,7 @@ namespace Kinteraction.Kinteract.Poses.Distance
         public List<string> CalculateDistance(JointType from, JointType to)
         {
             var graph = new BodyGraph().Graph;
-            //initialize neighbors using predefined dixtionary
+            //initialize neighbors using predefined dictionary
             foreach (var node in graph)
             {
                 node.Neighbors = new List<Neighbor>();
