@@ -5,8 +5,8 @@ namespace Kinteraction.Kinteract.Gestures
 {
     internal class Gesture
     {
-        private readonly int MAX_FRAMES_PAUSED_GESTURE_COUNT = 10;
-        private readonly int WINDOW_SIZE = 50;
+        private const int MaxFramesPausedGestureCount = 10;
+        private const int WindowSize = 50;
 
         private int _currentSegment;
 
@@ -50,7 +50,7 @@ namespace Kinteraction.Kinteract.Gestures
                 {
                     _currentSegment++;
                     _frameCount = 0;
-                    _pausedFrameCount = MAX_FRAMES_PAUSED_GESTURE_COUNT;
+                    _pausedFrameCount = MaxFramesPausedGestureCount;
                     _isPaused = true;
                 }
                 else
@@ -62,14 +62,14 @@ namespace Kinteraction.Kinteract.Gestures
                     }
                 }
             }
-            else if (result == Outcome.Failed || _frameCount == WINDOW_SIZE)
+            else if (result == Outcome.Failed || _frameCount == WindowSize)
             {
                 Reset();
             }
             else
             {
                 _frameCount++;
-                _pausedFrameCount = MAX_FRAMES_PAUSED_GESTURE_COUNT / 2;
+                _pausedFrameCount = MaxFramesPausedGestureCount / 2;
                 _isPaused = true;
             }
         }
@@ -78,7 +78,7 @@ namespace Kinteraction.Kinteract.Gestures
         {
             _currentSegment = 0;
             _frameCount = 0;
-            _pausedFrameCount = MAX_FRAMES_PAUSED_GESTURE_COUNT / 2;
+            _pausedFrameCount = MaxFramesPausedGestureCount / 2;
             _isPaused = true;
         }
     }

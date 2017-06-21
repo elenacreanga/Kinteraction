@@ -1,14 +1,15 @@
-﻿namespace Kinteraction
+﻿namespace Kinteraction.Kinteract
 {
     public class BaseFacade<T>
     {
-        protected readonly int DEFAULT_WINDOW_SIZE = 12;
-        public int WindowSize { get; set; }
+        protected readonly int DefaultWindowSize = 12;
 
         public BaseFacade()
         {
-            WindowSize = DEFAULT_WINDOW_SIZE;
+            WindowSize = DefaultWindowSize;
         }
+
+        public int WindowSize { get; set; }
 
         public bool IsRunning { get; private set; }
 

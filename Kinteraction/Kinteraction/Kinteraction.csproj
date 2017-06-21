@@ -67,12 +67,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BaseFacade.cs" />
+    <Compile Include="HandGestures.cs" />
+    <Compile Include="Helpers\Euclid.cs" />
+    <Compile Include="Kinteract\BaseFacade.cs" />
+    <Compile Include="Frames\BodyVisual.cs" />
     <Compile Include="Frames\KinectViewer.xaml.cs">
       <DependentUpon>KinectViewer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ColorBitmapGenerator.cs" />
+    <Compile Include="Helpers\ImageExtensions.cs" />
     <Compile Include="Kinteract\Gestures\Constants.cs" />
     <Compile Include="Kinteract\Gestures\Segments\CrossedArmsSegment.cs" />
+    <Compile Include="Kinteract\Players\UserFacade.cs" />
+    <Compile Include="Kinteract\Players\UserFacadeEventArgs.cs" />
     <Compile Include="Kinteract\Poses\Distance.cs" />
     <Compile Include="Kinteract\Poses\Distance\BodyGraph.cs" />
     <Compile Include="Kinteract\Poses\Distance\Dijkstra.cs" />
@@ -84,7 +91,8 @@
     <Compile Include="Kinteract\Gestures\Gesture.cs" />
     <Compile Include="Kinteract\Gestures\GestureEventArgs.cs" />
     <Compile Include="Kinteract\Gestures\GestureFacade.cs" />
-    <Compile Include="Kinteract\Poses\Helpers\KinectExtension.cs" />
+    <Compile Include="Kinteract\Poses\Helpers\BodyVisualsExtensions.cs" />
+    <Compile Include="Kinteract\Poses\Helpers\DistanceExtensions.cs" />
     <Compile Include="Kinteract\Poses\JointPath.cs" />
     <Compile Include="Kinteract\Poses\Pose.cs" />
     <Compile Include="Kinteract\Poses\LogicalPoses\AndPosture.cs" />

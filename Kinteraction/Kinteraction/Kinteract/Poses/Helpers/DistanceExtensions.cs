@@ -4,7 +4,7 @@ using Microsoft.Kinect;
 
 namespace Kinteraction.Kinteract.Poses.Helpers
 {
-    internal static class KinectExtension
+    internal static class DistanceExtensions
     {
         public static bool WithTolerance(this double value, double tolerance)
         {

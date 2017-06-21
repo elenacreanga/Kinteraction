@@ -1,6 +1,6 @@
 ﻿namespace Kinteraction.Kinteract.Poses
 {
-    public class BodyFrame
+    public class BodyJoint
     {
         public int AnkleLeft = 14;
         public int AnkleRight = 18;
