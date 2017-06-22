@@ -69,6 +69,7 @@
     </ApplicationDefinition>
     <Compile Include="DrawingBoard.cs" />
     <Compile Include="HandGestures.cs" />
+    <Compile Include="Helpers\DepthBitmapGenerator.cs" />
     <Compile Include="Helpers\Euclid.cs" />
     <Compile Include="Kinteract\BaseFacade.cs" />
     <Compile Include="Frames\BodyVisual.cs" />

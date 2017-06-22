@@ -41,7 +41,7 @@ namespace Kinteraction.Kinteract.Poses.Distance
                 {
                     if (node.DistanceDict.ContainsKey(to.ToString()))
                     {
-                        var result = new List<string> {node.Name};
+                        var result = new List<string>();
                         result.AddRange(node.DistanceDict[to.ToString()]);
                         return result;
                     }

@@ -97,6 +97,7 @@ namespace Kinteraction
         private bool RenderImage(MultiSourceFrame reference)
         {
             RenderColorFrame(reference);
+            //RenderDepthFrame(reference);
             return RenderBodyFrame(reference);
         }
 
@@ -129,6 +130,17 @@ namespace Kinteraction
                     viewer.ImageSource = frame.ToBitmap();
             }
         }
+        //private void RenderDepthFrame(MultiSourceFrame reference)
+        //{
+        //    using (var frame = reference.DepthFrameReference.AcquireFrame())
+        //    {
+        //        if (frame == null) return;
+        //        if (viewer.Visualization == Visualization.Depth)
+        //        {
+        //            viewer.ImageSource = frame.ToBitmap();
+        //        }
+        //    }
+        //}
 
         private void OpenGLControl_OpenGLDraw(object sender, OpenGLEventArgs args)
         {
@@ -144,9 +156,26 @@ namespace Kinteraction
 
         private void GestureFacade_GestureRecognized(object sender, GestureEventArgs e)
         {
-            if (e.Type == Kinteract.Gestures.Type.WaveRight)
+            switch (e.Type)
             {
-                _drawingBoard.Clear();
+                case Kinteract.Gestures.Type.WaveRight:
+                    //_drawingBoard.Clear();
+                    break;
+                case Kinteract.Gestures.Type.CrossedArms:
+                    _drawingBoard.Clear();
+                    break;
+                case Kinteract.Gestures.Type.SwipeRight:
+                    break;
+                case Kinteract.Gestures.Type.SwipeLeft:
+                    break;
+                case Kinteract.Gestures.Type.WaveLeft:
+                    break;
+                case Kinteract.Gestures.Type.ZoomIn:
+                    break;
+                case Kinteract.Gestures.Type.ZoomOut:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 

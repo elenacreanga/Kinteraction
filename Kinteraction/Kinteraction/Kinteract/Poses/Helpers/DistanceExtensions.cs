@@ -69,7 +69,7 @@ namespace Kinteraction.Kinteract.Poses.Helpers
 
         public static double PathLengthBetween(this Body body, JointType first, JointType second)
         {
-            var pathD = new Dijkstra().CalculateDistance(first, second);
+            var pathD = new Dijkstra().CalculateDistance(second, first);
             double length = 0;
             for (var i = 1; i < pathD.Count; i++)
             {
@@ -78,14 +78,6 @@ namespace Kinteraction.Kinteract.Poses.Helpers
                 length += body.Joints[jointiMinusOne].DistanceTo(body.Joints[jointI]);
             }
 
-            //var path = JointPath.Between(first, second);
-            //double length = 0;
-            //for (var i = 1; i < path.Count; i++)
-            //{
-            //    var jointiminusOne = path[i - 1];
-            //    var jointI = path[i];
-            //    length += body.Joints[jointiminusOne].DistanceTo(body.Joints[jointI]);
-            //}
             return length;
         }
 
