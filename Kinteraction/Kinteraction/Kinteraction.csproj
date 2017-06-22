@@ -67,6 +67,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DrawingBoard.cs" />
     <Compile Include="HandGestures.cs" />
     <Compile Include="Helpers\Euclid.cs" />
     <Compile Include="Kinteract\BaseFacade.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Kinteract\Poses\Posture.cs" />
     <Compile Include="Kinteract\Poses\Helpers\RatioCalculator.cs" />
     <Compile Include="Kinteract\Poses\Selectors\JointSelector.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Shapes\Hands.cs" />
     <Compile Include="Helpers\Conversions.cs" />
     <Compile Include="Kinteract\Gestures\ISegment.cs" />

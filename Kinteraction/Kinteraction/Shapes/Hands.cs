@@ -75,7 +75,7 @@ namespace Kinteraction.Shapes
             UpdateText(body);
         }
 
-        public void UpdateHandState(Body body, JointType jointType, Hand hand, HandState bodyHandState)
+        private void UpdateHandState(Body body, JointType jointType, Hand hand, HandState bodyHandState)
         {
             var handPosition = body.Joints[jointType].Position;
             if (handPosition.Z < 0)

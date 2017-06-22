@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using Kinteraction.Helpers;
 using Kinteraction.Shapes;
 
@@ -10,6 +11,7 @@ namespace Kinteraction
         private readonly Hands _hands;
         internal double[] Angle;
         internal float Dist;
+        private string _modText;
 
         public HandGestures(Hands hands)
         {
@@ -38,6 +40,9 @@ namespace Kinteraction
                         Mod = Mod.FREE;
                     }
             }
+
+            ModText = Enum.GetName(typeof(Mod), Mod);
+            Console.WriteLine(Mod);
         }
 
         public void IsZoom(Shape s)
@@ -71,6 +76,17 @@ namespace Kinteraction
                 }
             }
         }
+
+        public string ModText
+        {
+            get => _modText;
+            set
+            {
+                _modText = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ModText"));
+            }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 
     internal enum Mod

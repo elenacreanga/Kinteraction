@@ -39,7 +39,8 @@
                 Margin="10,0,0,81" 
                 TextWrapping="Wrap" 
                 Foreground="Pink" 
-                Text="{Binding ModText}" 
+                Text="-" 
+                x:Name="ModText"
                 VerticalAlignment="Bottom"/>
         </Grid>
         <Grid Grid.Column="1">
