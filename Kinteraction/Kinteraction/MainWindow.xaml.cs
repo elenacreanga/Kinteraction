@@ -159,9 +159,9 @@ namespace Kinteraction
             switch (e.Type)
             {
                 case Kinteract.Gestures.Type.WaveRight:
-                    //_drawingBoard.Clear();
+                    _drawingBoard.Undo();
                     break;
-                case Kinteract.Gestures.Type.CrossedArms:
+                case Kinteract.Gestures.Type.Clap:
                     _drawingBoard.Clear();
                     break;
                 case Kinteract.Gestures.Type.SwipeRight:

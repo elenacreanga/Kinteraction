@@ -13,5 +13,10 @@ namespace Kinteraction.Kinteract.Poses.Helpers
         {
             return Math.Abs(difference) / distance;
         }
+
+        public static double DifferenceDistance(double difference)
+        {
+            return 1 - Math.Abs(difference);
+        }
     }
 }

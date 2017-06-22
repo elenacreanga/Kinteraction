@@ -91,7 +91,7 @@ namespace Kinteraction.Kinteract.Gestures
         WaveLeft,
         ZoomIn,
         ZoomOut,
-        CrossedArms
+        Clap
     }
 
     public enum Outcome

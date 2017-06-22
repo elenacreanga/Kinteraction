@@ -56,11 +56,14 @@ namespace Kinteraction.Kinteract.Gestures
                     segments[4] = waveRightSegment1;
                     segments[5] = waveRightSegment2;
                     break;
-                case Type.CrossedArms:
-                    segments = new ISegment[3];
-                    var crossedArmsSegment = new CrossedArmsSegment();
-                    segments[0] = crossedArmsSegment;
-                    segments[1] = crossedArmsSegment;
+                case Type.Clap:
+                    segments = new ISegment[4];
+                    var clapSegment1 = new FirstClapSegment();
+                    var clapSegment2 = new SecondClapSegment();
+                    segments[0] = clapSegment1;
+                    segments[1] = clapSegment2;
+                    segments[2] = clapSegment1;
+                    segments[3] = clapSegment2;
                     break;
                 case Type.ZoomIn:
                     break;

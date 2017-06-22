@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Kinteraction.Annotations;
 using Kinteraction.Helpers;
@@ -26,7 +27,8 @@ namespace Kinteraction
             get => _hands;
             set { _hands = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Text")); } }
         private readonly ShapeFactory _shapeFactory;
-        private readonly IList<Shape> _shapes;
+        private IList<Shape> _shapes;
+        private readonly Shape[] _previousShapes;
         private Hands _hands;
 
         public DrawingBoard(ShapeFactory shapeFactory, CoordinateMapper coordinateMapper)
@@ -38,6 +40,7 @@ namespace Kinteraction
                 _shapeFactory.GetShape(Type.Sphere),
                 _shapeFactory.GetShape(Type.Pyramid)
             };
+            _previousShapes = _shapes.ToArray();
             Hands = new Hands(_shapeFactory, coordinateMapper);
             Hands.PropertyChanged += TextProperties_Changed;
 
@@ -111,7 +114,13 @@ namespace Kinteraction
 
         public void Clear()
         {
+            _shapes.CopyTo(_previousShapes, 0);
             _shapes.Clear();
+        }
+
+        public void Undo()
+        {
+            _shapes = _previousShapes.ToList();
         }
 
         public void UpdateHandsState(Body body)
