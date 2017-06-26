@@ -80,6 +80,7 @@
     <Compile Include="Helpers\ImageExtensions.cs" />
     <Compile Include="Kinteract\Gestures\Constants.cs" />
     <Compile Include="Kinteract\Gestures\Segments\ClapSegment.cs" />
+    <Compile Include="Kinteract\Gestures\Segments\CrossedArmsSegment.cs" />
     <Compile Include="Kinteract\Players\UserFacade.cs" />
     <Compile Include="Kinteract\Players\UserFacadeEventArgs.cs" />
     <Compile Include="Kinteract\Poses\Distance.cs" />

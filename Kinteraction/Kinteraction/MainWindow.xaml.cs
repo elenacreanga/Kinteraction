@@ -114,7 +114,9 @@ namespace Kinteraction
 
                     _userFacade.Update(bodies);
                     foreach (var body in bodies)
-                    { viewer.DrawBody(body);}
+                    {
+                        viewer.DrawBody(body);
+                    }
                     dataReceived = true;
                 }
             }
@@ -162,7 +164,7 @@ namespace Kinteraction
                     _drawingBoard.Undo();
                     break;
                 case Kinteract.Gestures.Type.Clap:
-                    _drawingBoard.Clear();
+                    _drawingBoard.Reset();
                     break;
                 case Kinteract.Gestures.Type.SwipeRight:
                     break;
@@ -173,6 +175,9 @@ namespace Kinteraction
                 case Kinteract.Gestures.Type.ZoomIn:
                     break;
                 case Kinteract.Gestures.Type.ZoomOut:
+                    break;
+                case Kinteract.Gestures.Type.CrossedArms:
+                    _drawingBoard.Clear();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

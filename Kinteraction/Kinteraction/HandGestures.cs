@@ -8,6 +8,7 @@ namespace Kinteraction
     internal class HandGestures
     {
         internal Mod Mod;
+        internal Mod PreviousMod = Mod.FREE;
         private readonly Hands _hands;
         internal double[] Angle;
         internal float Dist;

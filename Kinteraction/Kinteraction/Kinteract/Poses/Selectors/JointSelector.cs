@@ -79,7 +79,7 @@ namespace Kinteraction.Kinteract.Poses.Selectors
         public virtual Posture OverlapsWith(JointType other)
         {
             return new FunctionalPosture(body =>
-                    RatioCalculator.DifferenceDistance(body.XDiff(Joint, other)));
+                    RatioCalculator.DifferenceDistance(body.XDiff(Joint, other), body.YDiff(Joint, other), body.ZDiff(Joint, other)));
         }
 
         public virtual Posture AtTheSameLengthOf(JointType other)

@@ -2,6 +2,6 @@
 {
     public static class Constants
     {
-        public static double Tolerance = 0.6;
+        public static double Tolerance = 0.8;
     }
 }

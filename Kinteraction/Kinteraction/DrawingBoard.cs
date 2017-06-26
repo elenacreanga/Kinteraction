@@ -34,12 +34,7 @@ namespace Kinteraction
         public DrawingBoard(ShapeFactory shapeFactory, CoordinateMapper coordinateMapper)
         {
             _shapeFactory = shapeFactory;
-            _shapes = new List<Shape>
-            {
-                _shapeFactory.GetShape(Type.Cube),
-                _shapeFactory.GetShape(Type.Sphere),
-                _shapeFactory.GetShape(Type.Pyramid)
-            };
+            InitializeShapes();
             _previousShapes = _shapes.ToArray();
             Hands = new Hands(_shapeFactory, coordinateMapper);
             Hands.PropertyChanged += TextProperties_Changed;
@@ -48,8 +43,22 @@ namespace Kinteraction
             HandGestures.PropertyChanged += TextProperties_Changed;
         }
 
+        private void InitializeShapes()
+        {
+            _shapes = new List<Shape>
+            {
+                _shapeFactory.GetShape(Type.Cube),
+                _shapeFactory.GetShape(Type.Sphere),
+                _shapeFactory.GetShape(Type.Pyramid)
+            };
+        }
+
         internal void DrawShapes(OpenGL gl)
         {
+            if (HandGestures.PreviousMod == Mod.FREE && (HandGestures.Mod == Mod.GRAB || HandGestures.Mod == Mod.ZOOM))
+            {
+                _shapes.CopyTo(_previousShapes, 0);
+            }
             foreach (var shape in _shapes)
                 DrawItem(gl, shape);
         }
@@ -139,6 +148,12 @@ namespace Kinteraction
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void Reset()
+        {
+            _shapes.CopyTo(_previousShapes, 0);
+            InitializeShapes();
         }
     }
 }

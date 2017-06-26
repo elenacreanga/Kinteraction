@@ -69,6 +69,15 @@ namespace Kinteraction.Kinteract.Gestures
                     break;
                 case Type.ZoomOut:
                     break;
+                case Type.WaveLeft:
+                    break;
+                case Type.CrossedArms:
+                    segments = new ISegment[3];
+                    var crossedArms = new CrossedArmsSegment();
+                    segments[0] = crossedArms;
+                    segments[1] = crossedArms;
+                    segments[2] = crossedArms;
+                    break;
                 default:
                     break;
             }
