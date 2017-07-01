@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using Kinteraction.Helpers;
-using Kinteraction.Shapes;
+using Kinteraction.ShapeModelling.Shapes;
 
-namespace Kinteraction
+namespace Kinteraction.ShapeModelling
 {
     internal class HandGestures
     {

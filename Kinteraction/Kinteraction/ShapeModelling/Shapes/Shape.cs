@@ -1,7 +1,7 @@
 ﻿using System.Windows.Media;
 using SharpGL;
 
-namespace Kinteraction.Shapes
+namespace Kinteraction.ShapeModelling.Shapes
 {
     public abstract class Shape
     {

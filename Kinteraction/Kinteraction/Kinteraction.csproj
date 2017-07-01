@@ -67,8 +67,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DrawingBoard.cs" />
-    <Compile Include="HandGestures.cs" />
+    <Compile Include="ShapeModelling\DrawingBoard.cs" />
+    <Compile Include="ShapeModelling\HandGestures.cs" />
     <Compile Include="Helpers\DepthBitmapGenerator.cs" />
     <Compile Include="Helpers\Euclid.cs" />
     <Compile Include="Frames\BodyVisual.cs" />
@@ -79,16 +79,16 @@
     <Compile Include="Helpers\ImageExtensions.cs" />
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="Shapes\Hands.cs" />
+    <Compile Include="ShapeModelling\Shapes\Hands.cs" />
     <Compile Include="Helpers\Conversions.cs" />
-    <Compile Include="Shapes\Axis.cs" />
-    <Compile Include="Shapes\Cube.cs" />
-    <Compile Include="Shapes\Hand.cs" />
-    <Compile Include="Shapes\Pyramid.cs" />
-    <Compile Include="Shapes\Shape.cs" />
-    <Compile Include="Shapes\ShapeFactory.cs" />
-    <Compile Include="Shapes\Sphere.cs" />
-    <Compile Include="Shapes\Tracker.cs" />
+    <Compile Include="ShapeModelling\Shapes\Axis.cs" />
+    <Compile Include="ShapeModelling\Shapes\Cube.cs" />
+    <Compile Include="ShapeModelling\Shapes\Hand.cs" />
+    <Compile Include="ShapeModelling\Shapes\Pyramid.cs" />
+    <Compile Include="ShapeModelling\Shapes\Shape.cs" />
+    <Compile Include="ShapeModelling\Shapes\ShapeFactory.cs" />
+    <Compile Include="ShapeModelling\Shapes\Sphere.cs" />
+    <Compile Include="ShapeModelling\Shapes\Tracker.cs" />
     <Page Include="Frames\KinectViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -1,6 +1,6 @@
 ﻿using SharpGL;
 
-namespace Kinteraction.Shapes
+namespace Kinteraction.ShapeModelling.Shapes
 {
     public class Tracker : Shape
     {

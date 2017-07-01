@@ -1,4 +1,4 @@
-﻿namespace Kinteraction.Shapes
+﻿namespace Kinteraction.ShapeModelling.Shapes
 {
     public class ShapeFactory
     {

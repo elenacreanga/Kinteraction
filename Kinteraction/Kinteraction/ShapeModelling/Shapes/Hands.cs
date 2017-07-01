@@ -5,7 +5,7 @@ using Kinteraction.Helpers;
 using Microsoft.Kinect;
 using SharpGL;
 
-namespace Kinteraction.Shapes
+namespace Kinteraction.ShapeModelling.Shapes
 {
     public class Hands
     {

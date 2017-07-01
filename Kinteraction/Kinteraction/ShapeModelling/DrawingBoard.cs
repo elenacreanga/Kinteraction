@@ -5,12 +5,12 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Kinteraction.Helpers;
 using Kinteraction.Properties;
-using Kinteraction.Shapes;
+using Kinteraction.ShapeModelling.Shapes;
 using Microsoft.Kinect;
 using SharpGL;
-using Type = Kinteraction.Shapes.Type;
+using Type = Kinteraction.ShapeModelling.Shapes.Type;
 
-namespace Kinteraction
+namespace Kinteraction.ShapeModelling
 {
     internal class DrawingBoard : INotifyPropertyChanged
     {

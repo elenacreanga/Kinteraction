@@ -3,7 +3,7 @@ using System.Windows.Media.Media3D;
 using Kinteraction.Helpers;
 using SharpGL;
 
-namespace Kinteraction.Shapes
+namespace Kinteraction.ShapeModelling.Shapes
 {
     public class Hand
     {
