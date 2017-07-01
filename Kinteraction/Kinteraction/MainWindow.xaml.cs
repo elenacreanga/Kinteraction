@@ -1,28 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using Kinteraction.Annotations;
+using Kinteract.Gestures;
+using Kinteract.Players;
+using Kinteract.Poses.Helpers;
 using Kinteraction.Frames;
 using Kinteraction.Helpers;
-using Kinteraction.Kinteract.Gestures;
-using Kinteraction.Kinteract.Players;
-using Kinteraction.Kinteract.Poses.Helpers;
+using Kinteraction.Properties;
 using Kinteraction.Shapes;
 using Microsoft.Kinect;
-using SharpGL;
 using SharpGL.SceneGraph;
-using Type = Kinteraction.Shapes.Type;
 
 namespace Kinteraction
 {
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private readonly KinectSensor _kinectSensor;
-        private readonly MultiSourceFrameReader _multiSourceFrameReader;
 
         private Body[] _bodies;
         private GestureFacade _gestureFacade;
@@ -33,11 +28,10 @@ namespace Kinteraction
         public MainWindow()
         {
             _kinectSensor = KinectSensor.GetDefault();
-            _multiSourceFrameReader =
-                _kinectSensor.OpenMultiSourceFrameReader(FrameSourceTypes.Color | FrameSourceTypes.Depth |
-                                                         FrameSourceTypes.Infrared | FrameSourceTypes.Body);
-            if (_multiSourceFrameReader != null)
-                _multiSourceFrameReader.MultiSourceFrameArrived += Reader_FrameArrived;
+            var multiSourceFrameReader = _kinectSensor.OpenMultiSourceFrameReader(FrameSourceTypes.Color | FrameSourceTypes.Depth |
+                                                                                                      FrameSourceTypes.Infrared | FrameSourceTypes.Body);
+            if (multiSourceFrameReader != null)
+                multiSourceFrameReader.MultiSourceFrameArrived += Reader_FrameArrived;
             _kinectSensor.Open();
 
             DataContext = this;
