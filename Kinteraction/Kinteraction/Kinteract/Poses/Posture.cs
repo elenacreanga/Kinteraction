@@ -27,5 +27,10 @@ namespace Kinteraction.Kinteract.Poses
         {
             return new OrPosture(p, q);
         }
+
+        public static Posture operator !(Posture p)
+        {
+            return new NotPosture(p);
+        }
     }
 }

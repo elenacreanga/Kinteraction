@@ -57,13 +57,13 @@ namespace Kinteraction.Kinteract.Gestures
                     segments[5] = waveRightSegment2;
                     break;
                 case Type.Clap:
-                    segments = new ISegment[4];
+                    segments = new ISegment[2];
                     var clapSegment1 = new FirstClapSegment();
                     var clapSegment2 = new SecondClapSegment();
                     segments[0] = clapSegment1;
                     segments[1] = clapSegment2;
-                    segments[2] = clapSegment1;
-                    segments[3] = clapSegment2;
+                    //segments[2] = clapSegment1;
+                    //segments[3] = clapSegment2;
                     break;
                 case Type.ZoomIn:
                     break;

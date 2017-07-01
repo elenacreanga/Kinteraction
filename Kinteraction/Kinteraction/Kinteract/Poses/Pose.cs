@@ -6,7 +6,7 @@ namespace Kinteraction.Kinteract.Poses
     public class Pose
     {
         public static readonly JointSelector Head = new JointSelector(JointType.Head);
-        public static readonly JointSelector ShoulderCenter = new JointSelector(JointType.Neck);
+        public static readonly JointSelector Neck = new JointSelector(JointType.Neck);
         public static readonly JointSelector SpineShoulder = new JointSelector(JointType.SpineShoulder);
         public static readonly JointSelector SpineMid = new JointSelector(JointType.SpineMid);
         public static readonly JointSelector HipCenter = new JointSelector(JointType.SpineBase);

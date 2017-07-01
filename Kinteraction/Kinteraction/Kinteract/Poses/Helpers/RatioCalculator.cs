@@ -11,7 +11,7 @@ namespace Kinteraction.Kinteract.Poses.Helpers
 
         public static double AbsoluteDifferenceDistanceRatio(double difference, double distance)
         {
-            return Math.Abs(difference) / distance;
+            return 1- Math.Abs(difference) / distance;
         }
 
         public static double DifferenceDistance(double x, double y, double z)

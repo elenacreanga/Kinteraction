@@ -18,7 +18,6 @@ namespace Kinteraction.Kinteract.Gestures.Segments
                     if (body.Joints[JointType.HandRight].Position.X < body.Joints[JointType.ShoulderRight].Position.X && body.Joints[JointType.HandRight].Position.X > body.Joints[JointType.ShoulderLeft].Position.X &&
                         body.Joints[JointType.HandLeft].Position.X > body.Joints[JointType.ShoulderLeft].Position.X && body.Joints[JointType.HandLeft].Position.X < body.Joints[JointType.ShoulderRight].Position.X)
                     {
-                        // Hands very close
                         var handsVeryClose = Pose.RightHand.OverlapsWith(JointType.HandLeft);
                         if (handsVeryClose.Matches(body) > Constants.Tolerance)
                         {
@@ -41,20 +40,21 @@ namespace Kinteraction.Kinteract.Gestures.Segments
     {
         public Outcome Check(Body body)
         {
-            var outcome = Outcome.Successful;
-            var handsSameHeight = Pose.RightHand.AtTheSameHeightOf(JointType.HandLeft);
-            if (handsSameHeight.Matches(body) > Constants.Tolerance)
+            var handsVeryClose = Pose.RightHand.OverlapsWith(JointType.HandLeft);
+            if (handsVeryClose.Matches(body) >= Constants.Tolerance)
             {
-                outcome = Outcome.Successful;
+                return Outcome.Undetermined;
+                
             }
-            var rightHandRightOfSpineMid = Pose.RightHand.ToTheRightOf(JointType.SpineMid);
-            var leftHandleftOfSpineMid = Pose.LeftHand.ToTheLeftOf(JointType.SpineMid);
-            var handsAtDistance = rightHandRightOfSpineMid & leftHandleftOfSpineMid;
-            if (handsAtDistance.Matches(body) > Constants.Tolerance)
+            var handsAtTheSameHeight = Pose.RightHand.AtTheSameHeightOf(JointType.HandLeft);
+            var handsAtTheSameDepth = Pose.RightHand.AtTheSameDepthOf(JointType.HandLeft);
+            var handsAtTheSameHeightAndDepth = handsAtTheSameHeight & handsAtTheSameDepth;
+
+            if (handsAtTheSameHeightAndDepth.Matches(body) > Constants.Tolerance)
             {
-                outcome = Outcome.Successful;
+                return Outcome.Successful;
             }
-            return outcome;
+            return Outcome.Failed;
         }
     }
 }
