@@ -12,6 +12,7 @@ using Kinteraction.Properties;
 using Kinteraction.Shapes;
 using Microsoft.Kinect;
 using SharpGL.SceneGraph;
+using Type = Kinteract.Gestures.Type;
 
 namespace Kinteraction
 {
@@ -171,7 +172,11 @@ namespace Kinteraction
                 case Kinteract.Gestures.Type.ZoomOut:
                     break;
                 case Kinteract.Gestures.Type.CrossedArms:
+                    //_drawingBoard.Clear();
+                    break;
+                case Type.Surrender:
                     _drawingBoard.Clear();
+
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

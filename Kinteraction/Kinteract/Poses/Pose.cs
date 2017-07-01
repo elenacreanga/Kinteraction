@@ -28,11 +28,33 @@ namespace Kinteract.Poses
         public static readonly JointSelector RightHip = new JointSelector(JointType.HipRight);
         public static readonly JointSelector RightKnee = new JointSelector(JointType.KneeRight);
         public static readonly JointSelector RightAnkle = new JointSelector(JointType.AnkleRight);
-        public static readonly JointSelector RightFoot = new JointSelector(JointType.FootRight);
+        public static readonly JointSelector RightFootTip = new JointSelector(JointType.FootRight);
 
         public static readonly JointSelector LeftHip = new JointSelector(JointType.HipLeft);
         public static readonly JointSelector LeftKnee = new JointSelector(JointType.KneeLeft);
         public static readonly JointSelector LeftAnkle = new JointSelector(JointType.AnkleLeft);
-        public static readonly JointSelector LeftFoot = new JointSelector(JointType.FootLeft);
+        public static readonly JointSelector LeftFootTip = new JointSelector(JointType.FootLeft);
+
+
+        public static readonly BoneSelector UpperNeck = new BoneSelector(JointType.Head, JointType.Neck);
+        public static readonly BoneSelector LeftClavicule = new BoneSelector(JointType.ShoulderLeft, JointType.SpineShoulder);
+
+        public static readonly BoneSelector RightClavicule =
+            new BoneSelector(JointType.ShoulderRight, JointType.SpineShoulder);
+
+        public static readonly BoneSelector LeftForearm = new BoneSelector(JointType.ElbowLeft, JointType.WristLeft);
+        public static readonly BoneSelector RightForearm = new BoneSelector(JointType.ElbowRight, JointType.WristRight);
+
+        public static readonly BoneSelector LeftUpperarm = new BoneSelector(JointType.ShoulderLeft, JointType.ElbowLeft);
+        public static readonly BoneSelector RightUpperarm = new BoneSelector(JointType.ShoulderRight, JointType.ElbowRight);
+
+        public static readonly BoneSelector LeftFoot = new BoneSelector(JointType.AnkleLeft, JointType.FootLeft);
+        public static readonly BoneSelector RightFoot = new BoneSelector(JointType.AnkleRight, JointType.FootRight);
+
+        public static readonly BoneSelector LeftShin = new BoneSelector(JointType.KneeLeft, JointType.AnkleLeft);
+        public static readonly BoneSelector RightShin = new BoneSelector(JointType.KneeRight, JointType.AnkleRight);
+
+        public static readonly BoneSelector LeftThigh = new BoneSelector(JointType.HipLeft, JointType.KneeLeft);
+        public static readonly BoneSelector RightThigh = new BoneSelector(JointType.HipRight, JointType.KneeRight);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using Kinteract.Poses.Distance;
 using Microsoft.Kinect;
+using System.Windows.Media.Media3D;
 
 namespace Kinteract.Poses.Helpers
 {
@@ -40,12 +40,6 @@ namespace Kinteract.Poses.Helpers
         {
             return one.X * other.X + one.Y * other.Y + one.Z * other.Z;
         }
-
-        public static double AngleTo(this CameraSpacePoint point, CameraSpacePoint other)
-        {
-            return Math.Acos(point.DotProduct(other) / (point.Length() * other.Length()));
-        }
-
 
         public static double DistanceTo(this Joint first, Joint second)
         {
@@ -101,6 +95,20 @@ namespace Kinteract.Poses.Helpers
         public static double ZDiff(this Body body, JointType first, JointType second)
         {
             return body.Joints[first].Position.Z - body.Joints[second].Position.Z;
+        }
+
+        public static double GetAngleBetween(this Body body, JointType first, JointType second, JointType third)
+        {
+            var start = body.Joints[first].Position.To3DVector();
+            var middle = body.Joints[second].Position.To3DVector();
+            var end = body.Joints[third].Position.To3DVector();
+            var vectorOne = middle - start;
+            var vectorTwo = middle - end;
+
+            vectorOne.Normalize();
+            vectorTwo.Normalize();
+
+            return Vector3D.AngleBetween(vectorOne, vectorTwo);
         }
     }
 }

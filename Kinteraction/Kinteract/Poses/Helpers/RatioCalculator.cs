@@ -18,5 +18,10 @@ namespace Kinteract.Poses.Helpers
         {
             return 1 - (Math.Abs(x) + Math.Abs(y) + Math.Abs(z));
         }
+
+        public static double AngleDifference(double desiredAngle, double actual)
+        {
+            return 1 - Math.Abs(desiredAngle - actual)/100;
+        }
     }
 }

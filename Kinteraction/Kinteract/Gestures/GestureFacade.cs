@@ -78,6 +78,13 @@ namespace Kinteract.Gestures
                     segments[1] = crossedArms;
                     segments[2] = crossedArms;
                     break;
+                case Type.Surrender:
+                    segments = new ISegment[3];
+                    var surrender = new SurrenderSegment();
+                    segments[0] = surrender;
+                    segments[1] = surrender;
+                    segments[2] = surrender;
+                    break;
                 default:
                     break;
             }

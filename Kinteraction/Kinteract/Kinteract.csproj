@@ -34,6 +34,7 @@
       <HintPath>..\packages\Microsoft.Kinect.2.0.1410.19000\lib\net45\Microsoft.Kinect.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -51,6 +52,7 @@
     <Compile Include="Gestures\GestureFacade.cs" />
     <Compile Include="Gestures\ISegment.cs" />
     <Compile Include="Gestures\Segments\ClapSegment.cs" />
+    <Compile Include="Gestures\Segments\SurrenderSegment.cs" />
     <Compile Include="Gestures\Segments\CrossedArmsSegment.cs" />
     <Compile Include="Gestures\Segments\WaveSegment.cs" />
     <Compile Include="Players\UserFacade.cs" />
@@ -63,6 +65,7 @@
     <Compile Include="Poses\FunctionalPosture.cs" />
     <Compile Include="Poses\Helpers\BodyVisualsExtensions.cs" />
     <Compile Include="Poses\Helpers\DistanceExtensions.cs" />
+    <Compile Include="Poses\Helpers\MathConvertor.cs" />
     <Compile Include="Poses\Helpers\RatioCalculator.cs" />
     <Compile Include="Poses\JointPath.cs" />
     <Compile Include="Poses\LogicalPoses\AndPosture.cs" />
@@ -71,6 +74,7 @@
     <Compile Include="Poses\LogicalPoses\OrPosture.cs" />
     <Compile Include="Poses\Pose.cs" />
     <Compile Include="Poses\Posture.cs" />
+    <Compile Include="Poses\Selectors\BoneSelector.cs" />
     <Compile Include="Poses\Selectors\JointSelector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
