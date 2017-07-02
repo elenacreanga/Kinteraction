@@ -20,13 +20,13 @@
                 <ColumnDefinition Width="90"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="backButton" Click="Back_Click"
+            <Button x:Name="BackButton" Click="Back_Click"
                     Content="Back"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"/>
-            <TextBlock x:Name="pageTitle" Text="Posture Analysis" Grid.Column="1" 
+            <TextBlock x:Name="PageTitle" Text="Posture Analysis" Grid.Column="1" 
                        IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Center" />
-            <TextBlock x:Name="tblJoint" Text="-" Grid.Column="1" 
+            <TextBlock x:Name="Posture" Text="-" Grid.Column="1" 
                        IsHitTestVisible="false" TextWrapping="NoWrap" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0" />
         </Grid>
 

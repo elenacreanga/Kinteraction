@@ -52,9 +52,14 @@
     <Compile Include="Gestures\GestureFacade.cs" />
     <Compile Include="Gestures\ISegment.cs" />
     <Compile Include="Gestures\Segments\ClapSegment.cs" />
+    <Compile Include="Gestures\Segments\JumpSegment.cs" />
+    <Compile Include="Gestures\Segments\KickRightSegment.cs" />
+    <Compile Include="Gestures\Segments\LiftRightLegSegment.cs" />
+    <Compile Include="Gestures\Segments\SquatSegment.cs" />
     <Compile Include="Gestures\Segments\SurrenderSegment.cs" />
     <Compile Include="Gestures\Segments\CrossedArmsSegment.cs" />
     <Compile Include="Gestures\Segments\WaveSegment.cs" />
+    <Compile Include="Gestures\Segments\ZoomSegment.cs" />
     <Compile Include="Players\UserFacade.cs" />
     <Compile Include="Players\UserFacadeEventArgs.cs" />
     <Compile Include="Poses\Distance.cs" />

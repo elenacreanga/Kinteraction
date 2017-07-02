@@ -175,11 +175,9 @@ namespace Kinteraction
                 case Kinteract.Gestures.Type.ZoomOut:
                     break;
                 case Kinteract.Gestures.Type.CrossedArms:
-                    //_drawingBoard.Clear();
+                    _drawingBoard.Clear();
                     break;
                 case Type.Surrender:
-                    _drawingBoard.Clear();
-
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

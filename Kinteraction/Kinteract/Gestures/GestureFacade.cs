@@ -66,8 +66,18 @@ namespace Kinteract.Gestures
                     segments[3] = clapSegment2;
                     break;
                 case Type.ZoomIn:
+                    segments = new ISegment[3];
+
+                    segments[0] = new ZoomSegmentOne();
+                    segments[1] = new ZoomSegmentTwo();
+                    segments[2] = new ZoomSegmentThree();
                     break;
                 case Type.ZoomOut:
+                    segments = new ISegment[3];
+
+                    segments[0] = new ZoomSegmentThree();
+                    segments[1] = new ZoomSegmentTwo();
+                    segments[2] = new ZoomSegmentOne();
                     break;
                 case Type.WaveLeft:
                     break;
@@ -84,6 +94,32 @@ namespace Kinteract.Gestures
                     segments[0] = surrender;
                     segments[1] = surrender;
                     segments[2] = surrender;
+                    break;
+                case Type.KickLeft:
+                    break;
+                case Type.KickRight:
+                    segments = new ISegment[2];
+                    var kickSegmentOne = new KickRightSegmentOne();
+                    var kickSegmentTwo = new KickRightSegmentTwo();
+                    segments[0] = kickSegmentOne;
+                    segments[1] = kickSegmentTwo;
+                    break;
+                case Type.Jump:
+                    segments = new ISegment[2];
+                    var jumpSegmentOne = new JumpSegmentOne();
+                    segments[0] = jumpSegmentOne;
+                    segments[1] = jumpSegmentOne;
+                    break;
+                case Type.Squat:
+                    segments = new ISegment[2];
+                    var squatSegmentOne = new SquatSegmentOne();
+                    var squatSegmentTwo = new SquatSegmentTwo();
+                    segments[0] = squatSegmentOne;
+                    segments[1] = squatSegmentTwo;
+                    break;
+                case Type.LiftRightLeg:
+                    break;
+                case Type.LiftLeftLeg:
                     break;
                 default:
                     break;

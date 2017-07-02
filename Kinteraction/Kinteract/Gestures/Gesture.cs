@@ -85,15 +85,21 @@ namespace Kinteract.Gestures
 
     public enum Type
     {
-        SwipeRight,
-        SwipeLeft,
-        WaveRight,
-        WaveLeft,
-        ZoomIn,
-        ZoomOut,
-        Clap,
-        CrossedArms,
-        Surrender
+        SwipeRight = 1,
+        SwipeLeft = 2,
+        WaveRight = 3,
+        WaveLeft = 4,
+        ZoomIn = 5,
+        ZoomOut = 6,
+        Clap = 7,
+        CrossedArms = 8,
+        Surrender = 9,
+        KickRight = 10,
+        KickLeft = 11,
+        LiftRightLeg = 12,
+        LiftLeftLeg = 13,
+        Jump = 14,
+        Squat = 15
     }
 
     public enum Outcome

@@ -13,12 +13,11 @@ namespace Kinteract.Gestures.Segments
             var rightElbowToTheRightOfRightShoulder = Pose.RightElbow.ToTheRightOf(JointType.ShoulderRight);
             var rightForeArmInRightAngleWithRightShoulder = Pose.RightForearm.InRightAngleWith(JointType.ShoulderRight);
 
-            var rightElbowInStraightAngleWithRightClavicule = Pose.RightClavicule.InStraightAngleWith(JointType.ElbowRight);
+            var rightElbowInStraightAngleWithRightClavicule = Pose.RightClavicle.InStraightAngleWith(JointType.ElbowRight);
 
             var rightHandPose = rightHandAboveRightElbow & rightElbowToTheRightOfRightShoulder
                                 & rightForeArmInRightAngleWithRightShoulder
-                                & rightElbowInStraightAngleWithRightClavicule
-                                ;
+                                & rightElbowInStraightAngleWithRightClavicule;
 
             if (rightHandPose.Matches(body) > Constants.Tolerance)
             {
@@ -28,7 +27,7 @@ namespace Kinteract.Gestures.Segments
             var leftHandAboveLeftElbow = Pose.LeftHand.Above(JointType.ElbowLeft);
             var leftElbowToTheLeftOfLeftShoulder = Pose.LeftElbow.ToTheLeftOf(JointType.ShoulderLeft);
 
-            var leftElbowInStraightAngleWithLeftClavicule = Pose.LeftClavicule.InStraightAngleWith(JointType.ElbowLeft);
+            var leftElbowInStraightAngleWithLeftClavicule = Pose.LeftClavicle.InStraightAngleWith(JointType.ElbowLeft);
 
             var leftForeArmInRightAngleWithLeftShoulder = Pose.LeftForearm.InRightAngleWith(JointType.ShoulderLeft);
 

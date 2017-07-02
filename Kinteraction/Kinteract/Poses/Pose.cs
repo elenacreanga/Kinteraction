@@ -35,11 +35,12 @@ namespace Kinteract.Poses
         public static readonly JointSelector LeftAnkle = new JointSelector(JointType.AnkleLeft);
         public static readonly JointSelector LeftFootTip = new JointSelector(JointType.FootLeft);
 
-
         public static readonly BoneSelector UpperNeck = new BoneSelector(JointType.Head, JointType.Neck);
-        public static readonly BoneSelector LeftClavicule = new BoneSelector(JointType.ShoulderLeft, JointType.SpineShoulder);
+        public static readonly BoneSelector LowerNeck = new BoneSelector(JointType.Neck, JointType.SpineShoulder);
 
-        public static readonly BoneSelector RightClavicule =
+        public static readonly BoneSelector LeftClavicle =
+            new BoneSelector(JointType.ShoulderLeft, JointType.SpineShoulder);
+        public static readonly BoneSelector RightClavicle =
             new BoneSelector(JointType.ShoulderRight, JointType.SpineShoulder);
 
         public static readonly BoneSelector LeftForearm = new BoneSelector(JointType.ElbowLeft, JointType.WristLeft);
@@ -56,5 +57,21 @@ namespace Kinteract.Poses
 
         public static readonly BoneSelector LeftThigh = new BoneSelector(JointType.HipLeft, JointType.KneeLeft);
         public static readonly BoneSelector RightThigh = new BoneSelector(JointType.HipRight, JointType.KneeRight);
+
+        public static readonly BoneSelector LeftLowerHand = new BoneSelector(JointType.HandLeft, JointType.HandTipLeft);
+        public static readonly BoneSelector RightLowerHand = new BoneSelector(JointType.HandRight, JointType.HandTipRight);
+
+        public static readonly BoneSelector LeftPelvis = new BoneSelector(JointType.SpineBase, JointType.HipLeft);
+        public static readonly BoneSelector RightPelvis = new BoneSelector(JointType.SpineBase, JointType.HipRight);
+
+        public static readonly BoneSelector LeftThumbBone = new BoneSelector(JointType.ThumbLeft, JointType.WristLeft);
+        public static readonly BoneSelector RightThumbBone = new BoneSelector(JointType.ThumbRight, JointType.WristRight);
+
+        public static readonly BoneSelector LeftUpperHand = new BoneSelector(JointType.HandLeft, JointType.WristLeft);
+        public static readonly BoneSelector RightUpperHand = new BoneSelector(JointType.HandRight, JointType.WristRight);
+
+        public static readonly BoneSelector LowerBack = new BoneSelector(JointType.SpineBase, JointType.SpineMid);
+
+        public static readonly BoneSelector UpperBack = new BoneSelector(JointType.SpineMid, JointType.SpineShoulder);
     }
 }
