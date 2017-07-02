@@ -7,64 +7,10 @@
         xmlns:local="clr-namespace:Kinteraction"
         xmlns:frames="clr-namespace:Kinteraction.Frames"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="920">
+        Title="MainWindow" Height="600" Width="920"
+        Loaded="Window_Loaded">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2.5*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0">
-            <sharpGL:OpenGLControl OpenGLDraw="OpenGLControl_OpenGLDraw" Loaded="OpenGLControl_Loaded"/>
-
-            <TextBlock
-                HorizontalAlignment="Left" 
-                Margin="10,0,0,9" 
-                TextWrapping="Wrap" 
-                Foreground="Green"
-                x:Name="DetectedText"
-                Text="-"  
-                VerticalAlignment="Bottom" Width="117"
-            />
-            <TextBlock
-                HorizontalAlignment="Left" 
-                Margin="10,0,0,29" 
-                TextWrapping="Wrap" 
-                Foreground="Yellow" 
-                Text="-"
-                x:Name="HandText"
-                VerticalAlignment="Bottom" 
-                Width="196"/>
-            <TextBlock 
-                HorizontalAlignment="Left" 
-                Margin="10,0,0,81" 
-                TextWrapping="Wrap" 
-                Foreground="Pink" 
-                Text="-" 
-                x:Name="ModText"
-                VerticalAlignment="Bottom"/>
-        </Grid>
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-            </Grid.RowDefinitions>
-        <frames:KinectViewer 
-                            Grid.Row="0"
-                             VerticalAlignment="Top"
-                             x:Name="viewer"></frames:KinectViewer>
-            <Grid Grid.Row="1" Margin="10,0,0,0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0"  Foreground="DarkGreen" FontSize="20" TextWrapping="Wrap" Text="Commands:"></TextBlock>
-                <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="Grab object with right hand for moving."></TextBlock>
-                <TextBlock Grid.Row="2" TextWrapping="Wrap" Text="Grab object and grab left hand for transforming."></TextBlock>
-                <TextBlock Grid.Row="3" TextWrapping="Wrap" Text="Wave for clearing the board."></TextBlock>
-            </Grid>
-        </Grid>
+        <Frame Grid.Row="0" Name="frame" NavigationUIVisibility="Hidden" />
     </Grid>
     
 </Window>
