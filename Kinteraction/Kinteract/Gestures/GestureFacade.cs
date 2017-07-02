@@ -57,27 +57,29 @@ namespace Kinteract.Gestures
                     segments[5] = waveRightSegment2;
                     break;
                 case Type.Clap:
-                    segments = new ISegment[4];
+                    segments = new ISegment[6];
                     var clapSegment1 = new FirstClapSegment();
                     var clapSegment2 = new SecondClapSegment();
                     segments[0] = clapSegment1;
                     segments[1] = clapSegment2;
                     segments[2] = clapSegment1;
                     segments[3] = clapSegment2;
+                    segments[4] = clapSegment1;
+                    segments[5] = clapSegment2;
                     break;
                 case Type.ZoomIn:
-                    segments = new ISegment[3];
+                    //segments = new ISegment[3];
 
-                    segments[0] = new ZoomSegmentOne();
-                    segments[1] = new ZoomSegmentTwo();
-                    segments[2] = new ZoomSegmentThree();
+                    //segments[0] = new ZoomSegmentOne();
+                    //segments[1] = new ZoomSegmentTwo();
+                    //segments[2] = new ZoomSegmentThree();
                     break;
                 case Type.ZoomOut:
-                    segments = new ISegment[3];
+                    //segments = new ISegment[3];
 
-                    segments[0] = new ZoomSegmentThree();
-                    segments[1] = new ZoomSegmentTwo();
-                    segments[2] = new ZoomSegmentOne();
+                    //segments[0] = new ZoomSegmentThree();
+                    //segments[1] = new ZoomSegmentTwo();
+                    //segments[2] = new ZoomSegmentOne();
                     break;
                 case Type.WaveLeft:
                     break;
@@ -118,8 +120,18 @@ namespace Kinteract.Gestures
                     segments[1] = squatSegmentTwo;
                     break;
                 case Type.LiftRightLeg:
+                    segments = new ISegment[2];
+                    var liftRightLegSegmentOne = new LiftRightLegSegmentOne();
+                    var liftRightLegSegmentTwo = new LiftRightLegSegmentTwo();
+                    segments[0] = liftRightLegSegmentOne;
+                    segments[1] = liftRightLegSegmentTwo;
                     break;
                 case Type.LiftLeftLeg:
+                    segments = new ISegment[2];
+                    var liftLeftLegSegmentOne = new LiftLeftLegSegmentOne();
+                    var liftLeftLegSegmentTwo = new LiftLeftLegSegmentTwo();
+                    segments[0] = liftLeftLegSegmentOne;
+                    segments[1] = liftLeftLegSegmentTwo;
                     break;
                 default:
                     break;

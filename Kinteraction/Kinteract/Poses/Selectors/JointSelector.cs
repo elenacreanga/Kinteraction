@@ -49,8 +49,8 @@ namespace Kinteract.Poses.Selectors
         {
             return new FunctionalPosture(body =>
                 RatioCalculator.DifferenceDistanceRatio(
-                    body.ZDiff(Joint, other),
-                    body.PathLengthBetween(other, Joint)));
+                    body.ZDiff(other, Joint),
+                    body.PathLength(other, Joint)));
         }
 
         public virtual Posture AtTheSameDepthOf(JointType other)
@@ -58,7 +58,7 @@ namespace Kinteract.Poses.Selectors
             return new FunctionalPosture(body =>
                 RatioCalculator.AbsoluteDifferenceDistanceRatio(
                     body.ZDiff(Joint, other),
-                    body.PathLengthBetween(Joint, other)));
+                    body.PathLength(Joint, other)));
         }
 
         public virtual Posture ToTheLeftOf(JointType other)

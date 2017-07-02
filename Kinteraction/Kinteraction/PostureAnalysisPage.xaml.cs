@@ -171,6 +171,14 @@ namespace Kinteraction
                     Posture.Text = "KickRight detected";
                     WriteToFile(e.Type);
                     break;
+                case Type.LiftRightLeg:
+                    Posture.Text = "LiftRightLeg detected";
+                    WriteToFile(e.Type);
+                    break;
+                case Type.LiftLeftLeg:
+                    Posture.Text = "LiftLeftLeg detected";
+                    WriteToFile(e.Type);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

@@ -17,10 +17,14 @@ namespace Kinteract.Gestures.Segments
                     body.Joints[JointType.HandLeft].Position.Y > body.Joints[JointType.SpineBase].Position.Y)
                 {
                     // Hands between shoulders
-                    if (body.Joints[JointType.HandRight].Position.X < body.Joints[JointType.ShoulderRight].Position.X &&
-                        body.Joints[JointType.HandRight].Position.X > body.Joints[JointType.ShoulderLeft].Position.X &&
-                        body.Joints[JointType.HandLeft].Position.X > body.Joints[JointType.ShoulderLeft].Position.X &&
-                        body.Joints[JointType.HandLeft].Position.X < body.Joints[JointType.ShoulderRight].Position.X)
+                    if (body.Joints[JointType.HandRight].Position.X <
+                        body.Joints[JointType.ShoulderRight].Position.X &&
+                        body.Joints[JointType.HandRight].Position.X >
+                        body.Joints[JointType.ShoulderLeft].Position.X &&
+                        body.Joints[JointType.HandLeft].Position.X >
+                        body.Joints[JointType.ShoulderLeft].Position.X &&
+                        body.Joints[JointType.HandLeft].Position.X <
+                        body.Joints[JointType.ShoulderRight].Position.X)
                     {
                         return Outcome.Successful;
                     }
@@ -50,7 +54,8 @@ namespace Kinteract.Gestures.Segments
                     body.Joints[JointType.HandLeft].Position.Y > body.Joints[JointType.SpineBase].Position.Y)
                 {
                     // Hands outside shoulders
-                    if (body.Joints[JointType.HandRight].Position.X > body.Joints[JointType.ShoulderRight].Position.X &&
+                    if (body.Joints[JointType.HandRight].Position.X >
+                        body.Joints[JointType.ShoulderRight].Position.X &&
                         body.Joints[JointType.HandLeft].Position.X < body.Joints[JointType.ShoulderLeft].Position.X)
                     {
                         return Outcome.Successful;
@@ -81,7 +86,8 @@ namespace Kinteract.Gestures.Segments
                     body.Joints[JointType.HandLeft].Position.Y > body.Joints[JointType.SpineBase].Position.Y)
                 {
                     // Hands outside elbows
-                    if (body.Joints[JointType.HandRight].Position.X > body.Joints[JointType.ElbowRight].Position.X &&
+                    if (body.Joints[JointType.HandRight].Position.X >
+                        body.Joints[JointType.ElbowRight].Position.X &&
                         body.Joints[JointType.HandLeft].Position.X < body.Joints[JointType.ElbowLeft].Position.X)
                     {
                         return Outcome.Successful;
@@ -92,7 +98,6 @@ namespace Kinteract.Gestures.Segments
 
                 return Outcome.Failed;
             }
-
             return Outcome.Failed;
         }
     }

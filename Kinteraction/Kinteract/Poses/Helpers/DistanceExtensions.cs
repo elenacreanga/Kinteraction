@@ -77,6 +77,22 @@ namespace Kinteract.Poses.Helpers
                         .DistanceTo(body.Joints[(JointType) Enum.Parse(typeof(JointType), pathD[0])]);
             return length;
         }
+        public static double PathLength(this Body body, JointType first, JointType second)
+        {
+            var pathD = new Dijkstra().CalculateDistance(second, first);
+            double length = 0;
+            for (var i = 1; i < pathD.Count; i++)
+            {
+                var jointiMinusOne = (JointType) Enum.Parse(typeof(JointType), pathD[i - 1]);
+                var jointI = (JointType) Enum.Parse(typeof(JointType), pathD[i]);
+                length += body.Joints[jointiMinusOne].DistanceTo(body.Joints[jointI]);
+            }
+            var x = body.Joints[first].DistanceTo(body.Joints[second]);
+            var y = length + body.Joints[second]
+                        .DistanceTo(body.Joints[(JointType) Enum.Parse(typeof(JointType), pathD[0])]);
+            var distanceBetween = (length + x) / 2;
+            return distanceBetween;
+        }
 
         public static double XDiff(this Body body, JointType first, JointType second)
         {
