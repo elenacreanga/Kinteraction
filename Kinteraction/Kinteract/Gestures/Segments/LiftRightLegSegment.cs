@@ -12,9 +12,13 @@ namespace Kinteract.Gestures.Segments
             var rightKneeInFrontOfSpineBase = Pose.RightKnee.Before(JointType.SpineBase);
 
             var leftKneeAtTheSameDepthOfSpineBase = Pose.HipCenter.AtTheSameDepthOf(JointType.KneeLeft);
-            var posture = leftKneeAtTheSameDepthOfSpineBase & rightKneeInFrontOfSpineBase;
 
-            if (posture.Matches(body) > Constants.Tolerance)
+            var rightShinInRightAngleWithRightHip = Pose.RightShin.InRightAngleWith(JointType.HipRight);
+            var rightShinInObtuseAngleWithRightHip = Pose.RightShin.InObtuseAngleWith(JointType.HipRight);
+            var anglePosture = (rightShinInObtuseAngleWithRightHip | rightShinInRightAngleWithRightHip);
+            var depthPosture = leftKneeAtTheSameDepthOfSpineBase & rightKneeInFrontOfSpineBase;
+
+            if (depthPosture.Matches(body) > Constants.Tolerance)
             {
                 outcome = Outcome.Successful;
             }

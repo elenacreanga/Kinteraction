@@ -41,7 +41,9 @@ namespace Kinteraction
             _dateTime = DateTime.Now;
             _stopwatch = new Stopwatch();
             _stopwatch.Start();
-            _fileName = "DressingRoom";
+            const string dressingRoom = "DressingRoom";
+            const string jumpido = "Jumpido";
+            _fileName = jumpido;
             _user = "U_" + new Random().Next();
         }
 

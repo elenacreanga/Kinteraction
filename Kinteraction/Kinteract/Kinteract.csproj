@@ -53,6 +53,7 @@
     <Compile Include="Gestures\ISegment.cs" />
     <Compile Include="Gestures\Segments\ClapSegment.cs" />
     <Compile Include="Gestures\Segments\JumpSegment.cs" />
+    <Compile Include="Gestures\Segments\KickLeftLegSegment.cs" />
     <Compile Include="Gestures\Segments\KickRightSegment.cs" />
     <Compile Include="Gestures\Segments\LiftLeftLegSegment.cs" />
     <Compile Include="Gestures\Segments\LiftRightLegSegment.cs" />
