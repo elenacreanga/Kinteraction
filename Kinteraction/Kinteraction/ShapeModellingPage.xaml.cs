@@ -23,10 +23,10 @@ namespace Kinteraction
         private readonly KinectSensor _kinectSensor;
 
         private Body[] _bodies;
+        private DrawingBoard _drawingBoard;
         private GestureFacade _gestureFacade;
         private ShapeFactory _shapeFactory;
         private UserFacade _userFacade;
-        private DrawingBoard _drawingBoard;
 
         public ShapeModellingPage()
         {
@@ -48,9 +48,11 @@ namespace Kinteraction
             InitializeDrawingBoard();
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private void InitializeDrawingBoard()
         {
-            _shapeFactory = new Kinteraction.ShapeModelling.Shapes.ShapeFactory();
+            _shapeFactory = new ShapeFactory();
 
             _drawingBoard = new DrawingBoard(_shapeFactory, _kinectSensor.CoordinateMapper);
             _drawingBoard.PropertyChanged += HandProperties_Changed;
@@ -69,7 +71,7 @@ namespace Kinteraction
 
         private void HandProperties_Changed(object sender, EventArgs e)
         {
-            var drawingBoard = (DrawingBoard)sender;
+            var drawingBoard = (DrawingBoard) sender;
             DetectedText.Text = drawingBoard.Hands.DetectedText;
             HandText.Text = drawingBoard.Hands.HandText;
             ModText.Text = drawingBoard.HandGestures.ModText;
@@ -158,26 +160,38 @@ namespace Kinteraction
         {
             switch (e.Type)
             {
-                case Kinteract.Gestures.Type.WaveRight:
+                case Type.WaveRight:
                     _drawingBoard.Undo();
                     break;
-                case Kinteract.Gestures.Type.Clap:
+                case Type.Clap:
                     _drawingBoard.Reset();
                     break;
-                case Kinteract.Gestures.Type.SwipeRight:
+                case Type.SwipeRight:
                     break;
-                case Kinteract.Gestures.Type.SwipeLeft:
+                case Type.SwipeLeft:
                     break;
-                case Kinteract.Gestures.Type.WaveLeft:
+                case Type.WaveLeft:
                     break;
-                case Kinteract.Gestures.Type.ZoomIn:
+                case Type.ZoomIn:
                     break;
-                case Kinteract.Gestures.Type.ZoomOut:
+                case Type.ZoomOut:
                     break;
-                case Kinteract.Gestures.Type.CrossedArms:
+                case Type.CrossedArms:
                     _drawingBoard.Clear();
                     break;
                 case Type.Surrender:
+                    break;
+                case Type.KickRight:
+                    break;
+                case Type.KickLeft:
+                    break;
+                case Type.LiftRightLeg:
+                    break;
+                case Type.LiftLeftLeg:
+                    break;
+                case Type.Jump:
+                    break;
+                case Type.Squat:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -193,8 +207,6 @@ namespace Kinteraction
             viewer.Clear();
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -205,9 +217,7 @@ namespace Kinteraction
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             if (NavigationService.CanGoBack)
-            {
                 NavigationService.GoBack();
-            }
         }
     }
 }
